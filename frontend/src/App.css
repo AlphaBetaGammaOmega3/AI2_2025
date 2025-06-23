@@ -1,0 +1,139 @@
+.App-header {
+  background-color: #346E7F;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+}
+
+.header-left {
+  display: flex;
+  gap: 20px;
+}
+
+.header-left .icon {
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.header-center {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+
+.search-form {
+  display: flex;
+  width: 400px;
+}
+
+.search-form input[type=text] {
+  flex: 1;
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  background: #f1f1f1;
+}
+
+.search-form button {
+  padding: 10px;
+  background: #346E7F;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+.topnav a {
+  color: white;
+  padding: 8px 12px;
+  text-decoration: none;
+  font-size: 17px;
+  margin-right: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #346E7F;
+}
+
+.header-right .icon {
+  color: white;
+  font-size: 20px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+.filter-bar{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  background-color: #d8e6ea;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+.filter-bar button {
+  background-color: #346e7f;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+.filter-bar button:hover{
+  background-color: #2b5c;
+}
+
+.product-section {
+  padding: 30px;
+}
+
+.product-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.product-card {
+  min-width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.product-image {
+  background: #222;
+  color: white;
+  font-size: 24px;
+  text-align: center;
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-info {
+  padding: 10px;
+}
+.footer{
+    background-color: #346E7F;
+    color:#346E7F;
+}
+
+.product-info button {
+  background-color: #346E7F;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.tags {
+  font-size: 12px;
+  margin-top: 10px;
+  color: #666;
+}
+
