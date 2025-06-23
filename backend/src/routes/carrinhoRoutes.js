@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const carrinhoController = require('../controllers/carrinhoController');
+const isAuthenticated = require('../middleware/isAuthenticated');
 
-router.post('/', carrinhoController.create);
-router.get('/', carrinhoController.findAll);
-router.get('/:iduser', carrinhoController.getByUser);
-router.put('/:iduser', carrinhoController.update);
-router.delete('/:iduser', carrinhoController.deleteByUser);
-router.delete('/:iduser/:idprod', carrinhoController.deleteProdutoDoUser);
+router.post('/', isAuthenticated, carrinhoController.create);
+router.get('/', isAuthenticated, carrinhoController.findAll); // Pode restringir só admin se quiser
+router.get('/:iduser', isAuthenticated, carrinhoController.getByUser);
+router.put('/:iduser', isAuthenticated, carrinhoController.update);
+router.delete('/:iduser', isAuthenticated, carrinhoController.deleteByUser);
+router.delete('/:iduser/:idprod', isAuthenticated, carrinhoController.deleteProdutoDoUser);
 
 module.exports = router;

@@ -1,20 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const vendasItensController = require('../controllers/vendasitensController');
+const isAdmin = require('../middleware/isAdmin');
 
-// Listar todos os itens de vendas
-router.get('/', vendasItensController.findAll);
-
-// Buscar item por venda + produto (chave composta)
-router.get('/:idvenda/:idprod', vendasItensController.get);
-
-// Criar item de venda
-router.post('/', vendasItensController.create);
-
-// Atualizar item de venda
-router.put('/:idvenda/:idprod', vendasItensController.update);
-
-// Deletar item de venda
-router.delete('/:idvenda/:idprod', vendasItensController.delete);
+router.get('/', isAdmin, vendasItensController.findAll);
+router.get('/:idvenda/:idprod', isAdmin, vendasItensController.get);
+router.post('/', isAdmin, vendasItensController.create);
+router.put('/:idvenda/:idprod', isAdmin, vendasItensController.update);
+router.delete('/:idvenda/:idprod', isAdmin, vendasItensController.delete);
 
 module.exports = router;
