@@ -5,8 +5,8 @@ import '../../styles/LoginPage.css';
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
-  
   const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mensagem, setMensagem] = useState("");
@@ -22,7 +22,14 @@ const LoginPage = () => {
 
       localStorage.setItem("token", res.data.token);
       setMensagem("Login bem-sucedido!");
-      navigate("/admin/main"); // Redireciona após login bem-sucedido
+
+      // Exemplo: redireciona para diferentes páginas dependendo do tipo de usuário
+      if (res.data.tipouser === 1) {
+        navigate("/admin/main");
+      } else {
+        navigate("/homepage");
+      }
+
     } catch (err) {
       setMensagem(err.response?.data?.message || "Erro ao fazer login.");
     }
