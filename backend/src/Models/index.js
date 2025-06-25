@@ -26,8 +26,8 @@ const models = initModels(sequelize);
 
 // Atribuir cada modelo a db
 db.carrinhos = models.carrinhos;
-db.produtos = models.produtos;
 db.tiposproduto = models.tiposproduto;
+db.produtos = models.produtos;
 db.tiposuser = models.tiposuser;
 db.users = models.users;
 db.vendas = models.vendas;

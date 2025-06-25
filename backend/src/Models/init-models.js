@@ -9,8 +9,8 @@ var _vendas_itens = require("./vendas_itens");
 
 function initModels(sequelize) {
   var carrinhos = _carrinhos(sequelize, DataTypes);
-  var produtos = _produtos(sequelize, DataTypes);
   var tiposproduto = _tiposproduto(sequelize, DataTypes);
+  var produtos = _produtos(sequelize, DataTypes);
   var tiposuser = _tiposuser(sequelize, DataTypes);
   var users = _users(sequelize, DataTypes);
   var vendas = _vendas(sequelize, DataTypes);

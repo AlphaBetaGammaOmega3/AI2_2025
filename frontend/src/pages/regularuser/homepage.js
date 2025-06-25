@@ -8,7 +8,7 @@ function HomePage() {
 
   useEffect(() => {
     // Troque a URL pela sua real do backend
-    fetch('http://localhost:3000/produtos')
+    fetch('http://localhost:3000/api/produtos')
       .then((res) => {
         if (!res.ok) throw new Error('Erro ao buscar produtos');
         return res.json();

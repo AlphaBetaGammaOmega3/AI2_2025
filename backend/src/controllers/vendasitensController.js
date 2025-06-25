@@ -17,7 +17,7 @@ module.exports = {
     }
   },
 
-  // Buscar um item de venda por PK composta (idvenda + idprod)
+  // Procurar um item de venda por PK composta (idvenda + idprod)
   async get(req, res) {
     try {
       const { idvenda, idprod } = req.params;
@@ -71,7 +71,7 @@ module.exports = {
     }
   },
 
-  // Deletar um item de venda
+  // Eliminar um item de venda
   async delete(req, res) {
     try {
       const { idvenda, idprod } = req.params;
