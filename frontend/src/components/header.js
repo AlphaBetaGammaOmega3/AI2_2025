@@ -1,7 +1,7 @@
 // src/components/Header.js
 import React from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import 'C:/Users/simao/loja-react/src/App.css';
+import '../App.css';
 import { useNavigate } from 'react-router-dom';
 
 function Header() {

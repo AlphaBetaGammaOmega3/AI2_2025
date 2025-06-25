@@ -1,16 +1,8 @@
-// src/pages/RegisterPage.jsx
-import React from 'react';
-import '../../styles/criarconta.css';
-import { useNavigate } from 'react-router-dom';
+// components/Login.js
+import { useState } from "react";
+import axios from "axios";
 
-const CriarConta = () => {
-  const navigate = useNavigate();
-
-  const handleRegister = () => {
-    // Aqui podes fazer validação ou integração com a API depois
-    navigate('/homepage');
-  };
-
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mensagem, setMensagem] = useState("");
@@ -41,19 +33,49 @@ const CriarConta = () => {
   };
 
   return (
-    <div className="register-page">
-      <h2>Criar Conta</h2>
-      <div className="register-box">
-        <i className="fa fa-user-circle icon-register"></i>
-        <input type="email" placeholder="e-mail" />
-        <input type="text" placeholder="Nome de utilizador" />
-        <input type="password" placeholder="palavra-passe" />
-        <a href="#">esqueceu-se da palavra-passe?</a>
-        <a href="/login">Já tem conta? Login</a>
-        <button onClick={handleRegister}>Criar Conta</button>
-      </div>
+    <div className="container mt-5" style={{ maxWidth: 400 }}>
+      <h2>Login</h2>
+      <form onSubmit={handleLogin}>
+        <div className="mb-3">
+          <label>Email:</label>
+          <input
+            type="email"
+            className="form-control"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            disabled={loading}
+          />
+        </div>
+        <div className="mb-3">
+          <label>Senha:</label>
+          <input
+            type="password"
+            className="form-control"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            disabled={loading}
+          />
+        </div>
+        <button className="btn btn-primary" type="submit" disabled={loading}>
+          {loading ? "Entrando..." : "Entrar"}
+        </button>
+      </form>
+      {mensagem && (
+        <div
+          className={`mt-3 alert ${
+            mensagem === "Login bem-sucedido!"
+              ? "alert-success"
+              : "alert-danger"
+          }`}
+          role="alert"
+        >
+          {mensagem}
+        </div>
+      )}
     </div>
   );
-};
+}
 
-export default CriarConta;
+export default Login;
