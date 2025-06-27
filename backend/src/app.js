@@ -47,13 +47,27 @@ app.use('/api/vendas', vendasRoutes);
 app.use('/api/vendasitens', vendasitensRoutes);
 
 // Sincronizar o banco de dados
-db.sequelize.sync()
-  .then(() => {
-    console.log("🟢 Conexão com a base de dados estabelecida.");
-  })
-  .catch((err) => {
-    console.error("🔴 Erro ao conectar com a base de dados:", err.message);
-  });
+(async () => {
+  try {
+    // sincronizar primeiro tabelas sem dependências
+    await db.tiposuser.sync({ alter: true });
+    await db.tiposproduto.sync({ alter: true });
+
+    // depois as tabelas que dependem delas
+    await db.users.sync({ alter: true });
+    await db.produtos.sync({ alter: true });
+
+    // depois as tabelas intermediárias
+    await db.carrinhos.sync({ alter: true });
+    await db.vendas.sync({ alter: true });
+    await db.vendas_itens.sync({ alter: true });
+
+    console.log("🟢 Tabelas sincronizadas e conexão com a base de dados estabelecida.");
+  } catch (err) {
+    console.error("🔴 Erro ao sincronizar tabelas:", err.message);
+  }
+})();
+
 
 // Iniciar o servidor
 app.listen(app.get('port'), () => {
