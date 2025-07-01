@@ -1,4 +1,3 @@
-// src/pages/admin/ProdutoAdmin.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../../styles/screenprodutoAdmin.css';
@@ -6,6 +5,7 @@ import '../../styles/screenprodutoAdmin.css';
 const ProdutoAdmin = () => {
   const navigate = useNavigate();
   const { idproduto } = useParams();
+
   const [produto, setProduto] = useState({
     nome: '',
     idtipoprod: '',
@@ -14,6 +14,7 @@ const ProdutoAdmin = () => {
     imagem: '',
     stock: '',
   });
+
   const [categorias, setCategorias] = useState([]);
 
   useEffect(() => {
@@ -33,7 +34,7 @@ const ProdutoAdmin = () => {
       .catch(err => console.error('Erro ao carregar produto:', err));
 
     // Buscar categorias disponíveis
-    fetch(`/api/tiposprodutos`)
+    fetch('/api/tiposprodutos')
       .then(res => res.json())
       .then(data => setCategorias(data))
       .catch(err => console.error('Erro ao carregar categorias:', err));
@@ -68,7 +69,6 @@ const ProdutoAdmin = () => {
 
   return (
     <div className="page-container">
-      {/* Header */}
       <div className="header">
         <div className="nav-buttons">
           <button onClick={() => navigate('/admin/main')} className="nav-button">Utilizadores</button>
@@ -78,12 +78,10 @@ const ProdutoAdmin = () => {
         <i className="fa fa-sign-out icon" onClick={() => navigate('/')} title="Logout"></i>
       </div>
 
-      {/* Conteúdo */}
       <div className="content">
         <h1 className="title">Editar Produto</h1>
 
         <div className="edit-container">
-          {/* Imagem do produto */}
           <div className="image-preview">
             {produto.imagem ? (
               <img src={produto.imagem} alt="Preview" />
@@ -92,7 +90,6 @@ const ProdutoAdmin = () => {
             )}
           </div>
 
-          {/* Formulário */}
           <div className="form-section">
             <div className="input-row">
               <div className="input-group">
@@ -103,8 +100,10 @@ const ProdutoAdmin = () => {
                 <label>Categoria:</label>
                 <select name="idtipoprod" value={produto.idtipoprod} onChange={handleChange}>
                   <option value="">Selecione</option>
-                  {categorias.map((cat) => (
-                    <option key={cat.idtipoprod} value={cat.idtipoprod}>{cat.nome}</option>
+                  {categorias.map(cat => (
+                    <option key={cat.idtipoprod} value={cat.idtipoprod}>
+                      {cat.nome}
+                    </option>
                   ))}
                 </select>
               </div>

@@ -1,33 +1,31 @@
-// components/Login.js
-import { useState } from "react";
-import axios from "axios";
+import { useState } from 'react';
+import axios from 'axios';
 
-function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [mensagem, setMensagem] = useState("");
+const CriarConta = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [mensagem, setMensagem] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setMensagem("");
+    setMensagem('');
     setLoading(true);
 
     try {
-      // Corrija aqui a URL se seu backend usa '/api/login' ou '/api/auth/login'
-      const res = await axios.post("http://localhost:3000/api/login", {
+      const res = await axios.post('http://localhost:3000/api/login', {
         email,
         password,
       });
 
-      localStorage.setItem("token", res.data.token);
-      setMensagem("Login bem-sucedido!");
+      localStorage.setItem('token', res.data.token);
+      setMensagem('Login bem-sucedido!');
       setLoading(false);
 
-      // Aqui você pode redirecionar ou atualizar o estado do app para indicar login feito
-
+      // Aqui podes redirecionar com React Router se quiseres:
+      // navigate('/admin/main') por exemplo
     } catch (err) {
-      setMensagem(err.response?.data?.message || "Erro ao fazer login.");
+      setMensagem(err.response?.data?.message || 'Erro ao fazer login.');
       setLoading(false);
     }
   };
@@ -47,6 +45,7 @@ function Login() {
             disabled={loading}
           />
         </div>
+
         <div className="mb-3">
           <label>Senha:</label>
           <input
@@ -58,16 +57,16 @@ function Login() {
             disabled={loading}
           />
         </div>
+
         <button className="btn btn-primary" type="submit" disabled={loading}>
-          {loading ? "Entrando..." : "Entrar"}
+          {loading ? 'Entrando...' : 'Entrar'}
         </button>
       </form>
+
       {mensagem && (
         <div
           className={`mt-3 alert ${
-            mensagem === "Login bem-sucedido!"
-              ? "alert-success"
-              : "alert-danger"
+            mensagem === 'Login bem-sucedido!' ? 'alert-success' : 'alert-danger'
           }`}
           role="alert"
         >
@@ -76,6 +75,6 @@ function Login() {
       )}
     </div>
   );
-}
+};
 
-export default Login;
+export default CriarConta;
