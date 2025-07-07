@@ -1,44 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Header from "../../components/Header"; // atualiza o caminho se necessário
-
-const produtos = [
-  {
-    id: 1,
-    titulo: "Título do Artigo",
-    descricao: "Descricao Descricao Descricao Descricao Descricao",
-    imagem: "https://placehold.co/300x200?text=Imagem+Produto",
-    tags: ["Homem", "T-shirts", "M"],
-  },
-  {
-    id: 2,
-    titulo: "Outro Produto",
-    descricao: "Descricao Descricao Descricao Descricao Descricao",
-    imagem: "https://placehold.co/300x200?text=Imagem+Produto",
-    tags: ["Mulher", "Camisas", "S"],
-  }
-];
+import axios from "axios";
+import Header from "../../components/Header";
 
 const Home = () => {
+  const [produtos, setProdutos] = useState([]);
+
+  useEffect(() => {
+    const fetchProdutos = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/produtos");
+        setProdutos(response.data);
+      } catch (err) {
+        console.error("Erro ao buscar produtos:", err.message);
+      }
+    };
+
+    fetchProdutos();
+  }, []);
+
   return (
     <>
       <Header />
       <Container className="mt-4">
         <h3>Lista de produtos</h3>
-        <div className="d-flex  gap-4 py-3">
+        <div className="d-flex flex-wrap gap-4 py-3">
           {produtos.map((produto) => (
-            <Card style={{ minWidth: "300px" }} key={produto.id}>
+            <Card style={{ minWidth: "300px" }} key={produto.idproduto}>
               <Card.Img variant="top" src={produto.imagem} />
               <Card.Body>
-                <Card.Title>{produto.titulo}</Card.Title>
-                <Card.Text>{produto.descricao}</Card.Text>
-                <Button variant="info" as={Link} to={`/artigo/${produto.id}`}>
+                <Card.Title>{produto.nome}</Card.Title>
+                <Card.Text>
+                  {produto.valor ? `Preço: €${produto.valor}` : ""}
+                  <br />
+                  Tamanho: {produto.tamanho}
+                </Card.Text>
+                <Button
+                  variant="info"
+                  as={Link}
+                  to={`/artigo/${produto.idproduto}`}
+                >
                   Ver Artigo
                 </Button>
               </Card.Body>
               <Card.Footer>
-                <small>{produto.tags.join(" / ")}</small>
+                <small>
+                  Tipo: {produto.idtipoprod_tiposproduto?.descricao || "N/A"}
+                </small>
               </Card.Footer>
             </Card>
           ))}
