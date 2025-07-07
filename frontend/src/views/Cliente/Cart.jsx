@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";4
 import Header from "../../components/Header";
 
-const CarrinhoPage = () => {
+const Cart = () => {
   return (
     <div>
       {/* HEADER */}
@@ -83,4 +83,4 @@ const CarrinhoPage = () => {
   );
 };
 
-export default CarrinhoPage;
+export default Cart;
