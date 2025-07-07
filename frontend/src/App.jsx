@@ -4,7 +4,7 @@ import Login from './views/Auth/Login';
 import Register from './views/Auth/CreateAccount';
 import Home from './views/Cliente/Home';
 import Cart from './views/Cliente/Cart';
-import Perfil from './views/Cliente/Profile';
+import CarrinhoPage from './views/Cliente/Cart';
 
 function App() {
   return (
