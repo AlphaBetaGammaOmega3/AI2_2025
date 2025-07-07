@@ -3,6 +3,8 @@ const router = express.Router();
 const produtosController = require('../controllers/produtosController');
 const isAdmin = require('../middleware/isAdmin');
 const authorizeRoles = require('../middleware/authorizeRoles');
+const isAuthenticated = require('../middleware/isAuthenticated'); // <-- importar
+
 
 router.get('/', produtosController.findAll);
 router.get('/:idproduto', produtosController.get);
