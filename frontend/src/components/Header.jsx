@@ -4,12 +4,14 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { FaShoppingCart, FaSignOutAlt } from "react-icons/fa";
 
 const filtros = ["Homem", "Mulher", "Calçado", "Calças", "T-shirts", "Casacos", "Hoodies", "Camisas"];
+const style = { color: { colorvar: '346E7F' } }
 
 const Header = () => {
   return (
     <header>
       {/* Barra de pesquisa e ícones */}
-      <div className="bg-teal-700 text-white py-3 px-4">
+      <div className="bg-teal-700 text-white py-3 px-4 color:346E7F">
+        <div style={style} />
         <Container fluid>
           <Row className="align-items-center">
             <Col xs={12} md={8} className="text-center mb-2 mb-md-0">
