@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const bcrypt = require('bcryptjs');
 const db = require('./Models');
 
 // Rotas
@@ -74,49 +75,48 @@ app.use('/api/vendasitens', vendasitensRoutes);
     });
 
     // garantir tipos de produto padrão
-const tiposProdutosPadrao = [
-  "Calçado",
-  "Sapatos",
-  "Calças",
-  "T-Shirt",
-  "Camisas",
-  "Camisolas",
-  "Casaco"
-];
+    const tiposProdutosPadrao = [
+      "Calçado",
+      "Sapatos",
+      "Calças",
+      "T-Shirt",
+      "Camisas",
+      "Camisolas",
+      "Casaco"
+    ];
 
-for (const descricao of tiposProdutosPadrao) {
-  await db.tiposproduto.findOrCreate({
-    where: { descricao },
-    defaults: { descricao }
-  });
-}
+    for (const descricao of tiposProdutosPadrao) {
+      await db.tiposproduto.findOrCreate({
+        where: { descricao },
+        defaults: { descricao }
+      });
+    }
 
-// criar utilizador admin padrão, se não existir
-const [adminUser, created] = await db.users.findOrCreate({
-  where: { email: 'admin@gmail.com' },
-  defaults: {
-    nome: 'Administrador',
-    email: 'admin@gmail.com',
-    password: await db.users.hashPassword('admin123'), // bcrypt dentro do model
-    morada: 'Sede',
-    idtipouser: 1 // admin
-  }
-});
+    // criar utilizador admin padrão, se não existir
+    const hashedPassword = await bcrypt.hash('admin123', 10);
 
-if (created) {
-  console.log("🔑 Utilizador admin padrão criado (admin@gmail.com / admin123)");
-} else {
-  console.log("🔑 Utilizador admin padrão já existe");
-}
+    const [adminUser, created] = await db.users.findOrCreate({
+      where: { email: 'admin@gmail.com' },
+      defaults: {
+        nome: 'Administrador',
+        email: 'admin@gmail.com',
+        password: hashedPassword,
+        morada: 'Sede',
+        idtipouser: 1
+      }
+    });
 
+    if (created) {
+      console.log("🔑 Utilizador admin padrão criado (admin@gmail.com / admin123)");
+    } else {
+      console.log("🔑 Utilizador admin padrão já existe");
+    }
 
-    console.log("🟢 Tabelas sincronizadas, tipos de usuário criados se necessário, e conexão com a base de dados estabelecida.");
+    console.log("🟢 Tabelas sincronizadas, dados iniciais criados e conexão OK.");
   } catch (err) {
     console.error("🔴 Erro ao sincronizar tabelas:", err.message);
   }
 })();
-
-
 
 // Iniciar o servidor
 app.listen(app.get('port'), () => {
