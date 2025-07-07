@@ -62,11 +62,60 @@ app.use('/api/vendasitens', vendasitensRoutes);
     await db.vendas.sync({ alter: true });
     await db.vendas_itens.sync({ alter: true });
 
-    console.log("🟢 Tabelas sincronizadas e conexão com a base de dados estabelecida.");
+    // garantir tipos de usuário padrão
+    await db.tiposuser.findOrCreate({
+      where: { idtipouser: 1 },
+      defaults: { descricao: 'admin' }
+    });
+
+    await db.tiposuser.findOrCreate({
+      where: { idtipouser: 2 },
+      defaults: { descricao: 'cliente' }
+    });
+
+    // garantir tipos de produto padrão
+const tiposProdutosPadrao = [
+  "Calçado",
+  "Sapatos",
+  "Calças",
+  "T-Shirt",
+  "Camisas",
+  "Camisolas",
+  "Casaco"
+];
+
+for (const descricao of tiposProdutosPadrao) {
+  await db.tiposproduto.findOrCreate({
+    where: { descricao },
+    defaults: { descricao }
+  });
+}
+
+// criar utilizador admin padrão, se não existir
+const [adminUser, created] = await db.users.findOrCreate({
+  where: { email: 'admin@gmail.com' },
+  defaults: {
+    nome: 'Administrador',
+    email: 'admin@gmail.com',
+    password: await db.users.hashPassword('admin123'), // bcrypt dentro do model
+    morada: 'Sede',
+    idtipouser: 1 // admin
+  }
+});
+
+if (created) {
+  console.log("🔑 Utilizador admin padrão criado (admin@gmail.com / admin123)");
+} else {
+  console.log("🔑 Utilizador admin padrão já existe");
+}
+
+
+    console.log("🟢 Tabelas sincronizadas, tipos de usuário criados se necessário, e conexão com a base de dados estabelecida.");
   } catch (err) {
     console.error("🔴 Erro ao sincronizar tabelas:", err.message);
   }
 })();
+
 
 
 // Iniciar o servidor
