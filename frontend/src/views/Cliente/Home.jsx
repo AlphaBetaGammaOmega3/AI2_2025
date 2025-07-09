@@ -24,7 +24,7 @@ const Home = () => {
   return (
     <>
       <Header />
-      <Container className="mt-4">
+      <Container style={{ minWidth: "1520px", minHeight: "100vh" }} className="mt-5">
         <h3>Lista de produtos</h3>
         <div className="d-flex  gap-4 py-3">
           {produtos.map((produto) => (
@@ -37,13 +37,17 @@ const Home = () => {
                   Ver Artigo
                 </Button>
               </Card.Body>
-              <Card.Footer>
+              <Card.Footer >
                 <small>{produto.tags.join(" / ")}</small>
               </Card.Footer>
             </Card>
           ))}
         </div>
       </Container>
+      <div
+        className="mt-5"
+        style={{ height: "30px", backgroundColor: "#326d7c" }}
+      />
     </>
   );
 };

@@ -5,6 +5,8 @@ import Register from './views/Auth/CreateAccount';
 import Home from './views/Cliente/Home';
 import Cart from './views/Cliente/Cart';
 import Perfil from './views/Cliente/Profile';
+import AdminDashboard from './views/Admin/HomeAdmin';
+import ProdutoEditar from './views/Admin/EditProuct';
 
 
 function App() {
@@ -17,6 +19,9 @@ function App() {
         <Route path='/cart' element = {<Cart />} />
         <Route path='/profile' element = { <Perfil />} />
         {/* Podes adicionar outras rotas aqui no futuro */}
+
+        <Route path='/homeAdmin' element = { <AdminDashboard />} />
+        <Route path='/editProduct' element = { <ProdutoEditar />} />
       </Routes>
     </Router>
   );

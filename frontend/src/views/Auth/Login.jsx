@@ -10,7 +10,7 @@ function Login() {
       </header>
 
       <main className="flex-grow-1 d-flex justify-content-center align-items-center">
-        <div className="bg-light p-4 rounded shadow-sm text-center" style={{ maxWidth: '400px', width: '100%' }}>
+        <div className="bg-light p-4 rounded shadow-sm text-center" style={{maxWidth: '400px', width: '100%' }}>
           <div className="mb-4">
             <img
               src="/assets/react.svg" // Substitui por outro ícone/avatar se quiseres
