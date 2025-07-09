@@ -5,7 +5,7 @@ module.exports = {
 
   async findAll(req, res) {
   try {
-    const { idtipouser } = req.user;
+const idtipouser = req.user?.idtipouser ?? null;
 
     const allProdutos = await produtos.findAll({
       include: [{ model: tiposproduto, as: 'idtipoprod_tiposproduto' }],
