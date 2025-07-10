@@ -35,8 +35,8 @@ function Register() {
   };
 
   return (
-    <div className="min-vh-100 d-flex flex-column">
-      <header className="bg-teal text-white py-3 px-4">
+    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth:"1530px"}}>
+      <header className="bg-teal text-black py-3 px-4">
         <h2>Criar Conta</h2>
       </header>
 

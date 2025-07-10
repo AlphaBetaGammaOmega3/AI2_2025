@@ -1,6 +1,8 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
 import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 
 const AdminDashboard = () => {
   const users = Array(6).fill({
@@ -9,7 +11,7 @@ const AdminDashboard = () => {
   });
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth:"1530px"}}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth: "1530px" }}>
       {/* Header */}
       <div
         className="d-flex justify-content-between align-items-center p-3"
@@ -17,10 +19,16 @@ const AdminDashboard = () => {
       >
         <div className="d-flex gap-3">
           <Button variant="outline-light">Utilizadores</Button>
-          <Button variant="outline-light">Produtos</Button>
-          <Button variant="outline-light">Vendas</Button>
+          <Link to="/listProducts">
+            <Button variant="outline-light">Produtos</Button>
+          </Link>
+          <Link to="/soldProducts">
+            <Button variant="outline-light">Vendas</Button>
+          </Link>
         </div>
-        <FaSignOutAlt size={24} />
+        <Link to="/login" className="ms-3 text-white">
+          <FaSignOutAlt size={24} style={{ cursor: "pointer" }} />
+        </Link>
       </div>
 
       {/* Body */}

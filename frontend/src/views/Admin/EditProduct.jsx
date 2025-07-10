@@ -46,18 +46,21 @@ const ProdutoEditar = () => {
   };
 
   return (
-    <>
+    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth: "1530px" }}>
       {/* Header */}
-      <header className="bg-teal-700 text-white py-3 px-4 d-flex justify-content-between align-items-center">
+      <div
+        className="d-flex justify-content-between align-items-center p-3"
+        style={{ backgroundColor: "#326d7c", color: "white" }}
+      >
         <div className="d-flex gap-3">
-          <Link to="/admin/users" className="btn btn-outline-light">Utilizadores</Link>
-          <Link to="/admin/products" className="btn btn-outline-light">Produtos</Link>
-          <Link to="/admin/sales" className="btn btn-outline-light">Vendas</Link>
+          <Button variant="outline-light">Utilizadores</Button>
+          <Button variant="outline-light">Produtos</Button>
+          <Button variant="outline-light">Vendas</Button>
         </div>
-        <Link to="/login" className="text-white fs-4">
-          <FaSignOutAlt />
+        <Link to="/login" className="ms-3 text-white">
+          <FaSignOutAlt size={24} style={{ cursor: "pointer" }} />
         </Link>
-      </header>
+      </div>
 
       <Container className="my-4">
         <h3 className="mb-4">Editar Produto:</h3>
@@ -145,7 +148,7 @@ const ProdutoEditar = () => {
       </Container>
 
       <footer style={{ backgroundColor: "#346E7F", height: "30px" }} />
-    </>
+    </div>
   );
 };
 
