@@ -3,7 +3,7 @@ import { Container, Form, Button, Row, Col, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaSignOutAlt } from "react-icons/fa";
 
-const ProdutoEditar = () => {
+const ProdutoAdd = () => {
   const [formData, setFormData] = useState({
     nome: "",
     categorias: [],
@@ -69,7 +69,7 @@ const ProdutoEditar = () => {
       </div>
 
       <Container className="my-4">
-        <h3 className="mb-4">Editar Produto:</h3>
+        <h3 className="mb-4">Adicionar Produto</h3>
 
         <div className="p-4" style={{ backgroundColor: "#e9eff1" }}>
           <Form onSubmit={handleSubmit}>
@@ -145,7 +145,7 @@ const ProdutoEditar = () => {
                 </Form.Group>
 
                 <div className="d-flex justify-content-end">
-                  <Button type="submit" variant="primary">Salvar</Button>
+                  <Button type="submit" variant="primary">Adicionar</Button>
                 </div>
               </Col>
             </Row>
@@ -158,4 +158,4 @@ const ProdutoEditar = () => {
   );
 };
 
-export default ProdutoEditar;
+export default ProdutoAdd;

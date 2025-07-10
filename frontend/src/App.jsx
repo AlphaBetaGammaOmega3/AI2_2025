@@ -10,6 +10,7 @@ import ProdutoEditar from './views/Admin/EditProduct';
 import ProdutoAdmin from './views/Admin/ProductList';
 import VendasAdmin from './views/Admin/soldProducts';
 import LoginAdmin from './views/Auth/LoginAdmin';
+import ProdutoAdd from './views/Admin/AddProduct';
 
 
 function App() {
@@ -27,7 +28,8 @@ function App() {
         <Route path='/editProduct' element = { <ProdutoEditar />} />
         <Route path='/listProducts' element = { <ProdutoAdmin /> } />
         <Route path='/soldProducts' element = { <VendasAdmin /> } />
-        <Route path='/loginAdmin' element = { <LoginAdmin />} />
+        <Route path='/loginAdmin' element = { <LoginAdmin /> } />
+        <Route path="/AddProduct" element = {<ProdutoAdd /> } />
       </Routes>
     </Router>
   );

@@ -70,9 +70,9 @@ const ProdutoAdmin = () => {
             </Dropdown>
           </Col>
           <Col md="auto">
-            <Button variant="secondary">
-              Adicionar Produto <FaPlus />
-            </Button>
+            <Link to="/AddProduct" >
+              <Button variant="secondary">Adicionar Produto <FaPlus /></Button>
+            </Link>
           </Col>
         </Row>
 
