@@ -6,7 +6,10 @@ import Home from './views/Cliente/Home';
 import Cart from './views/Cliente/Cart';
 import Perfil from './views/Cliente/Profile';
 import AdminDashboard from './views/Admin/HomeAdmin';
-import ProdutoEditar from './views/Admin/EditProuct';
+import ProdutoEditar from './views/Admin/EditProduct';
+import ProdutoAdmin from './views/Admin/ProductList';
+import VendasAdmin from './views/Admin/soldProducts';
+import LoginAdmin from './views/Auth/LoginAdmin';
 
 
 function App() {
@@ -22,6 +25,9 @@ function App() {
 
         <Route path='/homeAdmin' element = { <AdminDashboard />} />
         <Route path='/editProduct' element = { <ProdutoEditar />} />
+        <Route path='/listProducts' element = { <ProdutoAdmin /> } />
+        <Route path='/soldProducts' element = { <VendasAdmin /> } />
+        <Route path='/loginAdmin' element = { <LoginAdmin />} />
       </Routes>
     </Router>
   );
