@@ -26,8 +26,8 @@ module.exports = async (req, res, next) => {
       return res.status(401).json({ message: 'Usuário não encontrado' });
     }
 
-    // Verifica se é admin (idtipouser == 4 conforme seu código)
-    if (user.idtipouser !== 4) {
+    // Verifica se é admin (idtipouser == 1 conforme seu código)
+    if (user.idtipouser !== 1) {
       return res.status(403).json({ message: 'Acesso negado: apenas administradores' });
     }
 

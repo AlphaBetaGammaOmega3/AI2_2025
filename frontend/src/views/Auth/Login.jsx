@@ -24,8 +24,13 @@ function Login() {
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
 
-      // Redirecionar para home ou dashboard
-      navigate('/');
+      // Redirecionar conforme tipo de usuário
+      if (user.idtipouser === 1) {
+        navigate('/homeAdmin');
+      } else {
+        navigate('/');
+      }
+
 
     } catch (err) {
       console.error("Erro no login:", err.response?.data?.message || err.message);
@@ -40,7 +45,7 @@ function Login() {
       </header>
 
       <main className="flex-grow-1 d-flex justify-content-center align-items-center">
-        <div className="bg-light p-4 rounded shadow-sm text-center" style={{maxWidth: '400px', width: '100%' }}>
+        <div className="bg-light p-4 rounded shadow-sm text-center" style={{ maxWidth: '400px', width: '100%' }}>
           <div className="mb-4">
             <img
               src="/assets/react.svg"

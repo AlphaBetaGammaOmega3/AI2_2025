@@ -7,7 +7,10 @@ import Cart from './views/Cliente/Cart';
 import Perfil from './views/Cliente/Profile';
 import AdminDashboard from './views/Admin/HomeAdmin';
 import ProdutoEditar from './views/Admin/EditProuct';
-
+import AdminProdutos from './views/Admin/AdminProdutos';
+import AdminVendas from './views/Admin/AdminVendas';
+import AdminProdutoCriar from './views/Admin/AdminProdutoCriar';
+import AdminProdutoEditar from './views/Admin/AdminProdutoEditar';
 
 function App() {
   return (
@@ -16,12 +19,18 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path='/cart' element = {<Cart />} />
-        <Route path='/profile' element = { <Perfil />} />
+        <Route path='/cart' element={<Cart />} />
+        <Route path='/profile' element={<Perfil />} />
+        <Route path='/homeAdmin' element = { <AdminDashboard />} />
+        <Route path='/adminprodutos' element={<AdminProdutos />} />
+        <Route path='/admin/produtos/novo' element={<AdminProdutoCriar />} />
+        <Route path='/admin/produtos/editar/:idproduto' element={<AdminProdutoEditar />} />
+        <Route path='/editProduct' element = { <ProdutoEditar />} />
+        <Route path='/adminvendas' element={<AdminVendas />} />
         {/* Podes adicionar outras rotas aqui no futuro */}
 
-        <Route path='/homeAdmin' element = { <AdminDashboard />} />
-        <Route path='/editProduct' element = { <ProdutoEditar />} />
+        <Route path='/homeAdmin' element={<AdminDashboard />} />
+        <Route path='/editProduct' element={<ProdutoEditar />} />
       </Routes>
     </Router>
   );
