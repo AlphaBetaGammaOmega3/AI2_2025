@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Card, Button } from "react-bootstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -9,7 +9,13 @@ const AdminVendas = () => {
   useEffect(() => {
     const fetchVendas = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/vendas");
+        // Requisição com token (exemplo com localStorage)
+        const token = localStorage.getItem("token");
+        const response = await axios.get("http://localhost:3000/api/vendas", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setVendas(response.data);
       } catch (err) {
         console.error("Erro ao buscar vendas:", err.message);
@@ -33,7 +39,12 @@ const AdminVendas = () => {
   const handleDelete = async (idvenda) => {
     if (window.confirm("Deseja realmente excluir esta venda?")) {
       try {
-        await axios.delete(`http://localhost:3000/api/vendas/${idvenda}`);
+        const token = localStorage.getItem("token");
+        await axios.delete(`http://localhost:3000/api/vendas/${idvenda}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setVendas(vendas.filter((v) => v.idvenda !== idvenda));
       } catch (err) {
         console.error("Erro ao excluir venda:", err.message);
@@ -49,53 +60,81 @@ const AdminVendas = () => {
         style={{ backgroundColor: "#326d7c", color: "white" }}
       >
         <div className="d-flex gap-3">
-          <Link to="/homeAdmin" className="btn btn-outline-light">Utilizadores</Link>
-          <Link to="/adminprodutos" className="btn btn-outline-light">Produtos</Link>
-          <Link to="/adminvendas" className="btn btn-outline-light">Vendas</Link>
+          <Link to="/homeAdmin" className="btn btn-outline-light">
+            Utilizadores
+          </Link>
+          <Link to="/adminprodutos" className="btn btn-outline-light">
+            Produtos
+          </Link>
+          <Link to="/adminvendas" className="btn btn-outline-light">
+            Vendas
+          </Link>
         </div>
       </div>
 
       <Container className="mt-4">
         <h3>Lista de Vendas:</h3>
 
+        {vendas.length === 0 && <p>Sem vendas registradas.</p>}
+
         {vendas.map((venda) => (
-          <Card className="mb-3" key={venda.idvenda} bg="light" border="secondary">
+          <Card className="mb-4" key={venda.idvenda} bg="light" border="secondary">
             <Card.Header>
-              <strong>Venda #{venda.idvenda}</strong> — Data: {formatDate(venda.datavenda)}
+              <strong>Venda #{venda.idvenda}</strong> — Data: {formatDate(venda.datacompra)}
             </Card.Header>
 
-            {venda.vendas_itens?.map((item, idx) => (
-              <Card.Body key={idx} className="d-flex flex-wrap align-items-center justify-content-between">
-                <div className="d-flex align-items-center" style={{ gap: "1rem" }}>
+            {venda.vendas_itens.map((item, idx) => (
+              <Card.Body
+                key={idx}
+                className="d-flex flex-wrap align-items-center justify-content-between"
+              >
+                <div className="d-flex align-items-center gap-3">
                   <img
-                    src={item.produto?.imagem || "https://via.placeholder.com/80"}
+                    src={item.idprod_produto?.imagem || "https://via.placeholder.com/80"}
                     alt="Produto"
                     width="80"
                     height="80"
                     style={{ objectFit: "cover", borderRadius: "8px" }}
                   />
                   <div>
-                    <div><strong>Artigo:</strong> {item.produto?.nome}</div>
-                    <div><strong>Descrição:</strong> {item.produto?.descricao}</div>
+                    <div>
+                      <strong>Produto:</strong> {item.idprod_produto?.nome}
+                    </div>
+                    <div>
+                      <strong>Descrição:</strong> {item.idprod_produto?.descricao}
+                    </div>
+                    <div>
+                      <strong>Tamanho:</strong> {item.idprod_produto?.tamanho}
+                    </div>
+                    <div>
+                      <strong>Categoria:</strong> {item.idprod_produto?.idtipoprod_tiposproduto?.descricao || "N/A"}
+                    </div>
                   </div>
                 </div>
 
                 <div className="text-end">
-                  <div><strong>Preço:</strong> €{item.precofinal?.toFixed(2) || "0.00"}</div>
-                  <div><strong>Categoria:</strong> {item.produto?.idtipoprod_tiposproduto?.descricao || "N/A"}</div>
-                  <div><strong>Tamanho:</strong> {item.produto?.tamanho}</div>
-                  <div><strong>Comprador:</strong> {venda.user?.email}</div>
+                  <div>
+                    <strong>Quantidade:</strong> {item.quantidade}
+                  </div>
+                  <div>
+                    <strong>Preço Unitário:</strong> €{item.precounitario.toFixed(2)}
+                  </div>
+                  <div>
+                    <strong>Preço Total:</strong> €{(item.quantidade * item.precounitario).toFixed(2)}
+                  </div>
                 </div>
               </Card.Body>
             ))}
 
-            <Card.Footer className="text-end">
-              <Button variant="secondary" className="me-2">
-                Editar
-              </Button>
-              <Button variant="danger" onClick={() => handleDelete(venda.idvenda)}>
-                Remover
-              </Button>
+            <Card.Footer className="d-flex justify-content-between">
+              <div>
+                <strong>Valor Final da Venda:</strong> €{venda.valorfinal?.toFixed(2)}
+              </div>
+              <div>
+                <Button variant="danger" onClick={() => handleDelete(venda.idvenda)}>
+                  Remover
+                </Button>
+              </div>
             </Card.Footer>
           </Card>
         ))}

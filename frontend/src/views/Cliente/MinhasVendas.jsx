@@ -1,0 +1,103 @@
+import React, { useEffect, useState } from "react";
+import { Container, Card } from "react-bootstrap";
+import axios from "axios";
+
+const MinhasVendas = () => {
+  const [vendas, setVendas] = useState([]);
+
+  useEffect(() => {
+    const fetchMinhasVendas = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get("http://localhost:3000/api/vendas", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setVendas(response.data);
+      } catch (err) {
+        console.error("Erro ao buscar suas vendas:", err.message);
+      }
+    };
+
+    fetchMinhasVendas();
+  }, []);
+
+  const formatDate = (dataISO) => {
+    const data = new Date(dataISO);
+    return data.toLocaleDateString("pt-PT", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  return (
+    <Container className="mt-4">
+      <h3>Minhas Compras</h3>
+
+      {vendas.length === 0 && <p>Você ainda não fez nenhuma compra.</p>}
+
+      {vendas.map((venda) => (
+        <Card className="mb-4" key={venda.idvenda} bg="light" border="secondary">
+          <Card.Header>
+            <strong>Compra #{venda.idvenda}</strong> — Data: {formatDate(venda.datacompra)}
+          </Card.Header>
+
+          {venda.vendas_itens.map((item, idx) => (
+            <Card.Body
+              key={idx}
+              className="d-flex flex-wrap align-items-center justify-content-between"
+            >
+              <div className="d-flex align-items-center gap-3">
+                <img
+                  src={item.idprod_produto?.imagem || "https://via.placeholder.com/80"}
+                  alt="Produto"
+                  width="80"
+                  height="80"
+                  style={{ objectFit: "cover", borderRadius: "8px" }}
+                />
+                <div>
+                  <div>
+                    <strong>Produto:</strong> {item.idprod_produto?.nome}
+                  </div>
+                  <div>
+                    <strong>Descrição:</strong> {item.idprod_produto?.descricao}
+                  </div>
+                  <div>
+                    <strong>Tamanho:</strong> {item.idprod_produto?.tamanho}
+                  </div>
+                  <div>
+                    <strong>Categoria:</strong>{" "}
+                    {item.idprod_produto?.idtipoprod_tiposproduto?.descricao || "N/A"}
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-end">
+                <div>
+                  <strong>Quantidade:</strong> {item.quantidade}
+                </div>
+                <div>
+                  <strong>Preço Unitário:</strong> €{item.precounitario.toFixed(2)}
+                </div>
+                <div>
+                  <strong>Preço Total:</strong>{" "}
+                  €{(item.quantidade * item.precounitario).toFixed(2)}
+                </div>
+              </div>
+            </Card.Body>
+          ))}
+
+          <Card.Footer>
+            <strong>Valor Total da Compra:</strong> €{venda.valorfinal?.toFixed(2)}
+          </Card.Footer>
+        </Card>
+      ))}
+    </Container>
+  );
+};
+
+export default MinhasVendas;

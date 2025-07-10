@@ -4,18 +4,45 @@ module.exports = {
 
   // Listar todos os itens de venda
   async findAll(req, res) {
-    try {
-      const allItens = await vendas_itens.findAll({
-        include: [
-          { model: produtos, as: 'idprod_produto' },
-          { model: vendas, as: 'idvenda_venda' }
-        ]
-      });
-      return res.json(allItens);
-    } catch (error) {
-      return res.status(500).json({ error: error.message });
-    }
-  },
+  try {
+    const allItens = await vendas_itens.findAll({
+      include: [
+        {
+          model: produtos,
+          as: 'idprod_produto',
+          attributes: ['nome'] // nome do produto
+        },
+        {
+          model: vendas,
+          as: 'idvenda_venda',
+          attributes: ['data'], // data da venda
+          include: [
+            {
+              model: require('../Models').users,
+              as: 'iduser_user',
+              attributes: ['nome'] // nome do usuário
+            }
+          ]
+        }
+      ]
+    });
+
+    // Mapeia os dados para um formato mais simples
+    const response = allItens.map(item => ({
+      data_venda: item.idvenda_venda?.data,
+      nome_usuario: item.idvenda_venda?.iduser_user?.nome || 'Usuário apagado',
+      nome_produto: item.idprod_produto?.nome || 'Produto apagado',
+      quantidade: item.quantidade,
+      preco_final: item.precounitario * item.quantidade
+    }));
+
+    return res.json(response);
+
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+},
+
 
   // Procurar um item de venda por PK composta (idvenda + idprod)
   async get(req, res) {

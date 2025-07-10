@@ -7,11 +7,14 @@ import Register from './views/Auth/CreateAccount';
 import Home from './views/Cliente/Home';
 import Cart from './views/Cliente/Cart';
 import Perfil from './views/Cliente/Profile';
+import MinhasVendas from './views/Cliente/MinhasVendas';
 
 import AdminDashboard from './views/Admin/HomeAdmin';
 import AdminProdutos from './views/Admin/AdminProdutos';
 import AdminProdutoCriar from './views/Admin/AdminProdutoCriar';
 import AdminProdutoEditar from './views/Admin/AdminProdutoEditar';
+import AdminVendas from './views/Admin/AdminVendas';
+import AdminHistoricoVendas from './views/Admin/AdminHistoricoVendas';
 
 function App() {
   return (
@@ -22,6 +25,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/minhascompras" element={<MinhasVendas />} />
         <Route path="/profile" element={<Perfil />} />
 
         {/* Admin */}
@@ -29,6 +33,8 @@ function App() {
         <Route path="/adminprodutos" element={<AdminProdutos />} />
         <Route path="/admin/produtos/novo" element={<AdminProdutoCriar />} />
         <Route path="/admin/produtos/editar/:idproduto" element={<AdminProdutoEditar />} />
+        <Route path="/adminvendas" element={<AdminVendas />} />
+        <Route path="/adminhistoricovendas" element={<AdminHistoricoVendas />} />
       </Routes>
     </Router>
   );
