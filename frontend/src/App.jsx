@@ -11,6 +11,12 @@ import AdminProdutos from './views/Admin/AdminProdutos';
 import AdminVendas from './views/Admin/AdminVendas';
 import AdminProdutoCriar from './views/Admin/AdminProdutoCriar';
 import AdminProdutoEditar from './views/Admin/AdminProdutoEditar';
+import ProdutoEditar from './views/Admin/EditProduct';
+import ProdutoAdmin from './views/Admin/ProductList';
+import VendasAdmin from './views/Admin/soldProducts';
+import LoginAdmin from './views/Auth/LoginAdmin';
+import ProdutoAdd from './views/Admin/AddProduct';
+
 
 function App() {
   return (
@@ -31,6 +37,12 @@ function App() {
 
         <Route path='/homeAdmin' element={<AdminDashboard />} />
         <Route path='/editProduct' element={<ProdutoEditar />} />
+        <Route path='/homeAdmin' element = { <AdminDashboard />} />
+        <Route path='/editProduct' element = { <ProdutoEditar />} />
+        <Route path='/listProducts' element = { <ProdutoAdmin /> } />
+        <Route path='/soldProducts' element = { <VendasAdmin /> } />
+        <Route path='/loginAdmin' element = { <LoginAdmin /> } />
+        <Route path="/AddProduct" element = {<ProdutoAdd /> } />
       </Routes>
     </Router>
   );

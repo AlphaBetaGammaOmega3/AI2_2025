@@ -4,7 +4,6 @@ import { Button, Card, Form, Modal } from "react-bootstrap";
 import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
@@ -134,15 +133,12 @@ const AdminDashboard = () => {
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth: "1530px" }}>
       {/* Header */}
-      <div
-        className="d-flex justify-content-between align-items-center p-3"
-        style={{ backgroundColor: "#326d7c", color: "white" }}
-      >
+      <div className="d-flex justify-content-between align-items-center p-3" style={{ backgroundColor: "#326d7c", color: "white" }}>
         <div className="d-flex gap-3">
-  <Link to="/homeAdmin" className="btn btn-outline-light">Utilizadores</Link>
-  <Link to="/adminprodutos" className="btn btn-outline-light">Produtos</Link>
-  <Link to="/adminvendas" className="btn btn-outline-light">Vendas</Link>
-</div>
+          <Link to="/homeAdmin" className="btn btn-outline-light">Utilizadores</Link>
+          <Link to="/adminprodutos" className="btn btn-outline-light">Produtos</Link>
+          <Link to="/adminvendas" className="btn btn-outline-light">Vendas</Link>
+        </div>
         <FaSignOutAlt size={24} />
       </div>
 
@@ -153,17 +149,11 @@ const AdminDashboard = () => {
           <div className="col-md-8">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h4>Lista de utilizadores:</h4>
-              <Button variant="success" onClick={handleCreate}>
-                Criar novo
-              </Button>
+              <Button variant="success" onClick={handleCreate}>Criar novo</Button>
             </div>
 
             {users.map((user) => (
-              <div
-                key={user.iduser}
-                className="d-flex justify-content-between align-items-center p-3 mb-3 rounded"
-                style={{ backgroundColor: "#a6bbc3" }}
-              >
+              <div key={user.iduser} className="d-flex justify-content-between align-items-center p-3 mb-3 rounded" style={{ backgroundColor: "#a6bbc3" }}>
                 <div className="d-flex align-items-center gap-3">
                   <FaUserCircle size={40} />
                   <div>
@@ -174,12 +164,8 @@ const AdminDashboard = () => {
                   </div>
                 </div>
                 <div className="d-flex gap-2">
-                  <Button variant="info" onClick={() => handleEdit(user)}>
-                    Editar
-                  </Button>
-                  <Button variant="danger" onClick={() => handleDelete(user.iduser)}>
-                    Remover
-                  </Button>
+                  <Button variant="info" onClick={() => handleEdit(user)}>Editar</Button>
+                  <Button variant="danger" onClick={() => handleDelete(user.iduser)}>Remover</Button>
                 </div>
               </div>
             ))}
@@ -193,13 +179,9 @@ const AdminDashboard = () => {
               </Card.Header>
               <Card.Body style={{ backgroundColor: "#e8eef0" }}>
                 <Card.Title className="text-start">Nome:</Card.Title>
-                <Card.Text className="text-start">
-                  {currentUser?.nome || "—"}
-                </Card.Text>
+                <Card.Text className="text-start">{currentUser?.nome || "—"}</Card.Text>
                 <Card.Title className="text-start">E-mail:</Card.Title>
-                <Card.Text className="text-start">
-                  {currentUser?.email || "—"}
-                </Card.Text>
+                <Card.Text className="text-start">{currentUser?.email || "—"}</Card.Text>
               </Card.Body>
             </Card>
           </div>

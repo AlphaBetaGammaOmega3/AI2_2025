@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
-function Login() {
+function LoginAdmin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [erro, setErro] = useState('');
@@ -24,13 +24,8 @@ function Login() {
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
 
-      // Redirecionar conforme tipo de usuário
-      if (user.idtipouser === 1) {
-        navigate('/homeAdmin');
-      } else {
-        navigate('/');
-      }
-
+      // Redirecionar para home ou dashboard
+      navigate('/');
 
     } catch (err) {
       console.error("Erro no login:", err.response?.data?.message || err.message);
@@ -39,13 +34,13 @@ function Login() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth:"1530px"}}>
-      <header className="bg-teal text-black py-3 px-4">
+    <div className="min-vh-100 d-flex flex-column">
+      <header className="bg-teal text-white py-3 px-4">
         <h2>Login</h2>
       </header>
 
       <main className="flex-grow-1 d-flex justify-content-center align-items-center">
-        <div className="bg-light p-4 rounded shadow-sm text-center" style={{ maxWidth: '400px', width: '100%' }}>
+        <div className="bg-light p-4 rounded shadow-sm text-center" style={{maxWidth: '400px', width: '100%' }}>
           <div className="mb-4">
             <img
               src="/assets/react.svg"
@@ -80,16 +75,6 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-
-            <div className="mb-3 small">
-              <a href="#" className="text-decoration-none">Esqueceu-se da palavra-passe?</a>
-            </div>
-
-            <button type="submit" className="btn btn-primary w-100">Login</button>
-
-            <div className="mt-3 small">
-              Não tem conta? <Link to="/register">Criar conta</Link>
-            </div>
           </form>
         </div>
       </main>
@@ -101,4 +86,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginAdmin;

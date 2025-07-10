@@ -34,9 +34,9 @@ const Cart = () => {
   };
 
   return (
-    <div>
+    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth:"1530px"}}>
       <Header />
-      <div className="container my-4">
+      <div className="container-fluid my-4">
         <div className="row">
           {/* Produtos no carrinho */}
           <div className="col-md-6">
