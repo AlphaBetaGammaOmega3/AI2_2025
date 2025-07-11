@@ -11,6 +11,7 @@ const AdminDashboard = () => {
   const [editingUser, setEditingUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState(null);
+  const [tiposUsers, setTiposUsers] = useState([]);
 
   const [formData, setFormData] = useState({
     nome: "",
@@ -60,9 +61,22 @@ const AdminDashboard = () => {
     }
   };
 
+  const fetchTiposUsers = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:3000/api/tiposusers", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setTiposUsers(res.data);
+    } catch (err) {
+      console.error("Erro ao buscar tipos de utilizador:", err);
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
     fetchCurrentUser();
+    fetchTiposUsers();
   }, []);
 
   if (loading) return <p>A carregar utilizadores...</p>;
@@ -159,7 +173,7 @@ const AdminDashboard = () => {
                   <div>
                     <div>{user.nome.trim()}</div>
                     <div style={{ fontSize: "0.9rem", color: "#333" }}>
-                      {user.email.trim()}
+                      {user.email.trim()} — {user.tipouser?.descricao}
                     </div>
                   </div>
                 </div>
@@ -223,6 +237,20 @@ const AdminDashboard = () => {
                 value={formData.morada}
                 onChange={(e) => setFormData({ ...formData, morada: e.target.value })}
               />
+            </Form.Group>
+            <Form.Group className="mb-2">
+              <Form.Label>Tipo de Utilizador</Form.Label>
+              <Form.Select
+                value={formData.idtipouser}
+                onChange={(e) => setFormData({ ...formData, idtipouser: parseInt(e.target.value) })}
+                required
+              >
+                {tiposUsers.map((tipo) => (
+                  <option key={tipo.idtipouser} value={tipo.idtipouser}>
+                    {tipo.descricao}
+                  </option>
+                ))}
+              </Form.Select>
             </Form.Group>
             <Form.Group className="mb-2">
               <Form.Label>Password</Form.Label>
