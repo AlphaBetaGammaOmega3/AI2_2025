@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  Container, Card, Button, Form, Row, Col, InputGroup, Modal
+  Container, Card, Button, Form, Row, Col, Modal
 } from "react-bootstrap";
 import axios from "axios";
 import AdminNavBar from "../../components/AdminNavBar ";
@@ -8,7 +8,7 @@ import AdminNavBar from "../../components/AdminNavBar ";
 const AdminProdutos = () => {
   const [produtos, setProdutos] = useState([]);
   const [tipos, setTipos] = useState([]);
-  const [search, setSearch] = useState("");
+  const [tipoSelecionado, setTipoSelecionado] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [editingProduto, setEditingProduto] = useState(null);
   const [formData, setFormData] = useState({
@@ -24,9 +24,7 @@ const AdminProdutos = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get("http://localhost:3000/api/produtos", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       setProdutos(res.data);
     } catch (err) {
@@ -38,9 +36,7 @@ const AdminProdutos = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get("http://localhost:3000/api/tiposprodutos", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       setTipos(res.data);
     } catch (err) {
@@ -84,9 +80,7 @@ const AdminProdutos = () => {
       try {
         const token = localStorage.getItem("token");
         await axios.delete(`http://localhost:3000/api/produtos/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         fetchProdutos();
       } catch (err) {
@@ -111,17 +105,11 @@ const AdminProdutos = () => {
         await axios.put(
           `http://localhost:3000/api/produtos/${editingProduto.idprod}`,
           payload,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
       } else {
         await axios.post("http://localhost:3000/api/produtos", payload, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
       }
 
@@ -133,9 +121,9 @@ const AdminProdutos = () => {
     }
   };
 
-  const filteredProdutos = produtos.filter((p) =>
-    p.nome.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredProdutos = tipoSelecionado
+    ? produtos.filter((p) => p.idtipoprod === parseInt(tipoSelecionado))
+    : produtos;
 
   return (
     <>
@@ -145,15 +133,17 @@ const AdminProdutos = () => {
 
         <Row className="mb-3">
           <Col md={4}>
-            <InputGroup>
-              <Form.Control
-                type="text"
-                placeholder="Pesquisar"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <Button variant="outline-secondary">🔍</Button>
-            </InputGroup>
+            <Form.Select
+              value={tipoSelecionado}
+              onChange={(e) => setTipoSelecionado(e.target.value)}
+            >
+              <option value="">Todos os Tipos</option>
+              {tipos.map((t) => (
+                <option key={t.idtipoprod} value={t.idtipoprod}>
+                  {t.descricao}
+                </option>
+              ))}
+            </Form.Select>
           </Col>
           <Col md="auto">
             <Button variant="outline-primary" onClick={handleCreate}>
@@ -193,6 +183,7 @@ const AdminProdutos = () => {
         </div>
       </Container>
 
+      {/* Modal de criação/edição */}
       <Modal show={showForm} onHide={() => setShowForm(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{editingProduto ? "Editar Produto" : "Criar Produto"}</Modal.Title>
@@ -248,7 +239,9 @@ const AdminProdutos = () => {
               >
                 <option value="">Selecione...</option>
                 {tipos.map((t) => (
-                  <option key={t.idtipoprod} value={t.idtipoprod}>{t.descricao}</option>
+                  <option key={t.idtipoprod} value={t.idtipoprod}>
+                    {t.descricao}
+                  </option>
                 ))}
               </Form.Select>
             </Form.Group>
