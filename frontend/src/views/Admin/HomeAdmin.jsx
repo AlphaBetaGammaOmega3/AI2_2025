@@ -3,6 +3,7 @@ import axios from "axios";
 import { Button, Card, Form, Modal } from "react-bootstrap";
 import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import AdminNavBar from "../../components/AdminNavBar ";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -147,6 +148,7 @@ const AdminDashboard = () => {
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth: "1530px" }}>
       {/* Header */}
+            <AdminNavBar />
       <div className="d-flex justify-content-between align-items-center p-3" style={{ backgroundColor: "#326d7c", color: "white" }}>
         <div className="d-flex gap-3">
           <Link to="/homeAdmin" className="btn btn-outline-light">Utilizadores</Link>

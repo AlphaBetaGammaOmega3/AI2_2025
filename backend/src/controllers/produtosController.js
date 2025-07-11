@@ -9,7 +9,7 @@ const idtipouser = req.user?.idtipouser ?? null;
 
     const allProdutos = await produtos.findAll({
       include: [{ model: tiposproduto, as: 'idtipoprod_tiposproduto' }],
-      attributes: idtipouser === 6 ? undefined : { exclude: ['stock'] }
+      //attributes: idtipouser === 1 ? undefined : { exclude: ['stock'] }
     });
     return res.json(allProdutos);
   } catch (error) {
@@ -24,7 +24,7 @@ async get(req, res) {
 
     const produto = await produtos.findByPk(idproduto, {
       include: [{ model: tiposproduto, as: 'idtipoprod_tiposproduto' }],
-      attributes: idtipouser === 6 ? undefined : { exclude: ['stock'] }
+      attributes: idtipouser === 1 ? undefined : { exclude: ['stock'] }
     });
     if (!produto) return res.status(404).json({ error: 'Produto not found' });
     return res.json(produto);

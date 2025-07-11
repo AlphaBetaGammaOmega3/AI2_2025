@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import AdminNavBar from "../../components/AdminNavBar "; 
 
 const AdminHistoricoVendas = () => {
     const [historico, setHistorico] = useState([]);
@@ -15,6 +16,8 @@ const AdminHistoricoVendas = () => {
     }, []);
 
     return (
+        <>
+      <AdminNavBar />
         <div className="container mt-4">
             <h2>Histórico de Vendas</h2>
             <table className="table table-striped mt-3">
@@ -47,6 +50,7 @@ const AdminHistoricoVendas = () => {
 
             </table>
         </div>
+        </>
     );
 };
 

@@ -10,8 +10,8 @@ router.get('/', produtosController.findAll);
 router.get('/:idproduto', produtosController.get);
 
 // Rotas protegidas pelo middleware isAdmin
-router.post('/', authorizeRoles(4), isAdmin, produtosController.create);
-router.put('/:idproduto', authorizeRoles(4), isAdmin, produtosController.update);
-router.delete('/:idproduto', authorizeRoles(4), isAdmin, produtosController.delete);
+router.post('/', authorizeRoles(1), isAdmin, produtosController.create);
+router.put('/:idproduto', authorizeRoles(1), isAdmin, produtosController.update);
+router.delete('/:idproduto', authorizeRoles(1), isAdmin, produtosController.delete);
 
 module.exports = router;

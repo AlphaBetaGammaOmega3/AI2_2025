@@ -11,10 +11,10 @@ import MinhasVendas from './views/Cliente/MinhasVendas';
 
 import AdminDashboard from './views/Admin/HomeAdmin';
 import AdminProdutos from './views/Admin/AdminProdutos';
-import AdminProdutoCriar from './views/Admin/AdminProdutoCriar';
-import AdminProdutoEditar from './views/Admin/AdminProdutoEditar';
 import AdminVendas from './views/Admin/AdminVendas';
 import AdminHistoricoVendas from './views/Admin/AdminHistoricoVendas';
+import AdminTiposProdutos from './views/Admin/AdminTiposProdutos';
+import AdminTiposUsers from './views/Admin/AdminTiposUsers';
 
 function App() {
   return (
@@ -31,10 +31,10 @@ function App() {
         {/* Admin */}
         <Route path="/homeAdmin" element={<AdminDashboard />} />
         <Route path="/adminprodutos" element={<AdminProdutos />} />
-        <Route path="/admin/produtos/novo" element={<AdminProdutoCriar />} />
-        <Route path="/admin/produtos/editar/:idproduto" element={<AdminProdutoEditar />} />
         <Route path="/adminvendas" element={<AdminVendas />} />
         <Route path="/adminhistoricovendas" element={<AdminHistoricoVendas />} />
+        <Route path="/admintiposprodutos" element={<AdminTiposProdutos />} />
+        <Route path="/admintiposusers" element={<AdminTiposUsers />} />
       </Routes>
     </Router>
   );

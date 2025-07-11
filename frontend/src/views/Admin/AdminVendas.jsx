@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Card, Button } from "react-bootstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import AdminNavBar from "../../components/AdminNavBar ";
 
 const AdminVendas = () => {
   const [vendas, setVendas] = useState([]);
@@ -55,6 +56,7 @@ const AdminVendas = () => {
   return (
     <>
       {/* Navegação no topo */}
+            <AdminNavBar />
       <div
         className="d-flex justify-content-between align-items-center p-3"
         style={{ backgroundColor: "#326d7c", color: "white" }}
