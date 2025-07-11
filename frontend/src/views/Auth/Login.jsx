@@ -23,6 +23,7 @@ function Login() {
       // Armazenar token e info do user localmente
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('iduser', user.iduser);
 
       // Redirecionar conforme tipo de usuário
       if (user.idtipouser === 1) {

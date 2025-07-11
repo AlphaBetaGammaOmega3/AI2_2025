@@ -35,19 +35,35 @@ module.exports = {
 
 
   async create(req, res) {
-    try {
-      const data = req.body;
-      if (Array.isArray(data)) {
-        const newCarrinhos = await carrinhos.bulkCreate(data);
-        return res.status(201).json(newCarrinhos);
-      } else {
-        const newCarrinho = await carrinhos.create(data);
-        return res.status(201).json(newCarrinho);
-      }
-    } catch (error) {
-      return res.status(500).json({ error: error.message });
+  try {
+    const { iduser, idprod, quantidade } = req.body;
+
+    console.log("REQ BODY RECEBIDO:", req.body);
+
+    if (!iduser || !idprod || !quantidade) {
+      return res.status(400).json({ error: 'Campos obrigatórios ausentes (iduser, idprod, quantidade)' });
     }
-  },
+
+    // Verifica se já existe esse produto no carrinho do mesmo user
+    const existente = await carrinhos.findOne({
+      where: { iduser, idprod }
+    });
+
+    if (existente) {
+      // Atualiza quantidade se já existir
+      await existente.update({ quantidade: existente.quantidade + quantidade });
+      return res.status(200).json(existente);
+    }
+
+    // Cria novo item
+    const newCarrinho = await carrinhos.create({ iduser, idprod, quantidade });
+    return res.status(201).json(newCarrinho);
+  } catch (error) {
+    console.error("Erro ao criar item no carrinho:", error.message, error);
+    return res.status(500).json({ error: error.message });
+  }
+},
+
 
   async update(req, res) {
     try {

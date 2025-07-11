@@ -4,8 +4,8 @@ const tiposProdutosController = require('../controllers/tiposprodutosController'
 const isAdmin = require('../middleware/isAdmin');
 
 router.post('/', isAdmin, tiposProdutosController.create);
-router.get('/', isAdmin, tiposProdutosController.findAll);
-router.get('/:idtipoproduto', isAdmin, tiposProdutosController.get);
+router.get('/', tiposProdutosController.findAll);
+router.get('/:idtipoproduto', tiposProdutosController.get);
 router.put('/:idtipoproduto', isAdmin, tiposProdutosController.update);
 router.delete('/:idtipoproduto', isAdmin, tiposProdutosController.delete);
 
