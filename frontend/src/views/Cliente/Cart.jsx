@@ -13,19 +13,23 @@ const Cart = () => {
   const iduser = localStorage.getItem("iduser");
   const token = localStorage.getItem("token");
 
-  // Buscar dados do carrinho e do utilizador
-  useEffect(() => {
-    if (!iduser || !token) return;
-
-    // Carrinho
+  const carregarCarrinho = () => {
     axios
       .get(`http://localhost:3000/api/carrinhos/${iduser}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((res) => setCarrinho(res.data))
+      .then((res) => {
+        console.log("Carrinho carregado:", res.data); // Debug para verificar estrutura
+        setCarrinho(res.data);
+      })
       .catch((err) => console.error("Erro ao carregar carrinho:", err));
+  };
 
-    // Dados do utilizador
+  useEffect(() => {
+    if (!iduser || !token) return;
+
+    carregarCarrinho();
+
     axios
       .get(`http://localhost:3000/api/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -62,15 +66,15 @@ const Cart = () => {
     if (!token) return alert("Precisa estar autenticado para comprar.");
 
     try {
-      // Atualizar morada do utilizador (mas não nome/email)
+      // Atualiza apenas a morada
       await axios.put(
         `http://localhost:3000/api/users/${iduser}`,
         { morada },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Criar a venda
-      const response = await axios.post(
+      // Efetua a compra
+      await axios.post(
         "http://localhost:3000/api/vendas",
         {},
         { headers: { Authorization: `Bearer ${token}` } }
@@ -78,8 +82,8 @@ const Cart = () => {
 
       setCompraFinalizada(true);
       setCarrinho([]);
+      carregarCarrinho(); // Recarrega carrinho após compra para atualizar o estado
       alert("Compra realizada com sucesso!");
-      console.log("Venda:", response.data);
     } catch (err) {
       console.error("Erro ao efetuar compra:", err.response?.data || err);
       alert("Erro ao finalizar compra.");
@@ -88,7 +92,7 @@ const Cart = () => {
 
   const total = carrinho.reduce(
     (sum, item) =>
-      sum + (item.idprod_produto?.preco || 0) * (item.quantidade || 1),
+      sum + (item.idprod_produto?.valor || 0) * (item.quantidade || 1),
     0
   );
 
@@ -126,11 +130,13 @@ const Cart = () => {
                     </div>
                     <div className="col-8">
                       <div className="card-body">
-                        <h5 className="card-title">{item.idprod_produto?.nome}</h5>
+                        <h5 className="card-title">
+                          {item.idprod_produto?.nome}
+                        </h5>
                         <p>{item.idprod_produto?.descricao || ""}</p>
                         <p>
                           <small className="text-muted">
-                            Preço unitário: €{item.idprod_produto?.preco}
+                            Preço unitário: €{item.idprod_produto?.valor}
                           </small>
                         </p>
                         <p>

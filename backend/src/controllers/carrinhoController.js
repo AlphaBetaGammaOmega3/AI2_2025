@@ -13,25 +13,27 @@ module.exports = {
   },
 
   async getByUser(req, res) {
-    try {
-      const { iduser } = req.params;
+  try {
+    const { iduser } = req.params;
 
-      const carrinhoItens = await carrinhos.findAll({
-        where: { iduser },
-        include: [
-          { model: users, as: 'iduser_user' },
-          { model: produtos, as: 'idprod_produto' }  // incluir dados do produto
-        ]
-      });
+    const carrinhoItens = await carrinhos.findAll({
+      where: { iduser },
+      include: [
+        { model: users, as: 'iduser_user' },
+        { model: produtos, as: 'idprod_produto' }
+      ]
+    });
 
-      if (!carrinhoItens || carrinhoItens.length === 0)
-        return res.status(404).json({ error: 'Carrinho do usuário não encontrado ou vazio' });
+    // Remover esta verificação:
+    // if (!carrinhoItens || carrinhoItens.length === 0)
+    //   return res.status(404).json({ error: 'Carrinho do usuário não encontrado ou vazio' });
 
-      return res.json(carrinhoItens);
-    } catch (error) {
-      return res.status(500).json({ error: error.message });
-    }
-  },
+    // Apenas retorna a lista (mesmo que vazia)
+    return res.status(200).json(carrinhoItens);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+},
 
 
   async create(req, res) {
