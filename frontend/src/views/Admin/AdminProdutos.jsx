@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
   Container, Card, Button, Form, Row, Col, InputGroup, Modal
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import AdminNavBar from "../../components/AdminNavBar ";
- 
 
 const AdminProdutos = () => {
   const [produtos, setProdutos] = useState([]);
@@ -23,19 +21,18 @@ const AdminProdutos = () => {
   });
 
   const fetchProdutos = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    const res = await axios.get("http://localhost:3000/api/produtos", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setProdutos(res.data);
-  } catch (err) {
-    console.error("Erro ao buscar produtos:", err);
-  }
-};
-
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:3000/api/produtos", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setProdutos(res.data);
+    } catch (err) {
+      console.error("Erro ao buscar produtos:", err);
+    }
+  };
 
   const fetchTipos = async () => {
     try {
@@ -100,7 +97,6 @@ const AdminProdutos = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("📤 Submetendo formulário:", formData);
     try {
       const token = localStorage.getItem("token");
 
@@ -132,11 +128,7 @@ const AdminProdutos = () => {
       setShowForm(false);
       fetchProdutos();
     } catch (err) {
-      if (err.response) {
-        console.error("❌ Erro na resposta:", err.response.data);
-      } else {
-        console.error("❌ Erro desconhecido:", err.message);
-      }
+      console.error("Erro ao salvar produto:", err.message);
       alert("Erro ao salvar produto. Veja o console.");
     }
   };
@@ -147,16 +139,7 @@ const AdminProdutos = () => {
 
   return (
     <>
-      {/* Barra de navegação */}
-            <AdminNavBar />
-      <div className="d-flex justify-content-between align-items-center p-3" style={{ backgroundColor: "#326d7c", color: "white" }}>
-        <div className="d-flex gap-3">
-          <Link to="/homeAdmin" className="btn btn-outline-light">Utilizadores</Link>
-          <Link to="/adminprodutos" className="btn btn-outline-light">Produtos</Link>
-          <Link to="/adminvendas" className="btn btn-outline-light">Vendas</Link>
-        </div>
-      </div>
-
+      <AdminNavBar />
       <Container className="mt-4">
         <h3>Lista de produtos:</h3>
 
@@ -210,7 +193,6 @@ const AdminProdutos = () => {
         </div>
       </Container>
 
-      {/* Modal de Criação/Edição */}
       <Modal show={showForm} onHide={() => setShowForm(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{editingProduto ? "Editar Produto" : "Criar Produto"}</Modal.Title>

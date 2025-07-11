@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Card, Button } from "react-bootstrap";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import AdminNavBar from "../../components/AdminNavBar ";
 
 const AdminVendas = () => {
@@ -10,7 +9,6 @@ const AdminVendas = () => {
   useEffect(() => {
     const fetchVendas = async () => {
       try {
-        // Requisição com token (exemplo com localStorage)
         const token = localStorage.getItem("token");
         const response = await axios.get("http://localhost:3000/api/vendas", {
           headers: {
@@ -55,25 +53,7 @@ const AdminVendas = () => {
 
   return (
     <>
-      {/* Navegação no topo */}
-            <AdminNavBar />
-      <div
-        className="d-flex justify-content-between align-items-center p-3"
-        style={{ backgroundColor: "#326d7c", color: "white" }}
-      >
-        <div className="d-flex gap-3">
-          <Link to="/homeAdmin" className="btn btn-outline-light">
-            Utilizadores
-          </Link>
-          <Link to="/adminprodutos" className="btn btn-outline-light">
-            Produtos
-          </Link>
-          <Link to="/adminvendas" className="btn btn-outline-light">
-            Vendas
-          </Link>
-        </div>
-      </div>
-
+      <AdminNavBar />
       <Container className="mt-4">
         <h3>Lista de Vendas:</h3>
 
@@ -99,39 +79,23 @@ const AdminVendas = () => {
                     style={{ objectFit: "cover", borderRadius: "8px" }}
                   />
                   <div>
-                    <div>
-                      <strong>Produto:</strong> {item.idprod_produto?.nome}
-                    </div>
-                    <div>
-                      <strong>Descrição:</strong> {item.idprod_produto?.descricao}
-                    </div>
-                    <div>
-                      <strong>Tamanho:</strong> {item.idprod_produto?.tamanho}
-                    </div>
-                    <div>
-                      <strong>Categoria:</strong> {item.idprod_produto?.idtipoprod_tiposproduto?.descricao || "N/A"}
-                    </div>
+                    <div><strong>Produto:</strong> {item.idprod_produto?.nome}</div>
+                    <div><strong>Descrição:</strong> {item.idprod_produto?.descricao}</div>
+                    <div><strong>Tamanho:</strong> {item.idprod_produto?.tamanho}</div>
+                    <div><strong>Categoria:</strong> {item.idprod_produto?.idtipoprod_tiposproduto?.descricao || "N/A"}</div>
                   </div>
                 </div>
 
                 <div className="text-end">
-                  <div>
-                    <strong>Quantidade:</strong> {item.quantidade}
-                  </div>
-                  <div>
-                    <strong>Preço Unitário:</strong> €{item.precounitario.toFixed(2)}
-                  </div>
-                  <div>
-                    <strong>Preço Total:</strong> €{(item.quantidade * item.precounitario).toFixed(2)}
-                  </div>
+                  <div><strong>Quantidade:</strong> {item.quantidade}</div>
+                  <div><strong>Preço Unitário:</strong> €{item.precounitario.toFixed(2)}</div>
+                  <div><strong>Preço Total:</strong> €{(item.quantidade * item.precounitario).toFixed(2)}</div>
                 </div>
               </Card.Body>
             ))}
 
             <Card.Footer className="d-flex justify-content-between">
-              <div>
-                <strong>Valor Final da Venda:</strong> €{venda.valorfinal?.toFixed(2)}
-              </div>
+              <div><strong>Valor Final da Venda:</strong> €{venda.valorfinal?.toFixed(2)}</div>
               <div>
                 <Button variant="danger" onClick={() => handleDelete(venda.idvenda)}>
                   Remover
