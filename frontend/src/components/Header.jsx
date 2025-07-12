@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { FaShoppingCart, FaSignOutAlt, FaUser, FaCoins } from "react-icons/fa";
 
-const filtros = ["Calçado", "Calças", "T-shirts", "Casacos", "Camisolas", "Camisas"];
+const filtros = [];
 
 const Header = () => {
   const navigate = useNavigate();
