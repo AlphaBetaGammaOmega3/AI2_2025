@@ -16,7 +16,7 @@ const AdminNavBar = () => {
     >
       {/* Botões de navegação (esquerda) */}
       <div className="d-flex gap-3">
-        <Link to="/admintiposusers" className="btn btn-outline-light">Tipos de Users</Link>
+        <Link to="/admintiposusers" className="btn btn-outline-light">Tipos de Utilizadores</Link>
         <Link to="/homeAdmin" className="btn btn-outline-light">Utilizadores</Link>
         <Link to="/admintiposprodutos" className="btn btn-outline-light">Tipos de Produtos</Link>
         <Link to="/adminprodutos" className="btn btn-outline-light">Produtos</Link>

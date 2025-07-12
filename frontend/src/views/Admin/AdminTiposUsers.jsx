@@ -81,7 +81,7 @@ const AdminTiposUsers = () => {
     <div style={{minHeight:"100vh", backgroundColor: "#f0f4f5", minWidth: "1530px"}}>
       <AdminNavBar />
       <Container className="mt-4">
-        <h3>Gestão de Tipos de Users</h3>
+        <h3>Gestão de Tipos de Utilizadores</h3>
         <Button className="mb-3" onClick={() => openForm()}>Adicionar Tipo User</Button>
 
         <Table striped bordered hover>
