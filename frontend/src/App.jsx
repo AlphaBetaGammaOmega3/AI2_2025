@@ -29,7 +29,7 @@ function App() {
         <Route path="/artigo/:idproduto" element={<VerProduto />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/minhascompras" element={<MinhasVendas />} />
-        <Route path="/profile" element={<Perfil />} />
+        <Route path="/perfil" element={<Perfil />} />
 
         {/* Admin */}
         <Route path="/homeAdmin" element={<AdminDashboard />} />
