@@ -126,7 +126,7 @@ const AdminProdutos = () => {
     : produtos;
 
   return (
-    <>
+    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth: "1530px" }}>
       <AdminNavBar />
       <Container className="mt-4">
         <h3>Lista de produtos:</h3>
@@ -251,7 +251,7 @@ const AdminProdutos = () => {
           </Form>
         </Modal.Body>
       </Modal>
-    </>
+    </div>
   );
 };
 

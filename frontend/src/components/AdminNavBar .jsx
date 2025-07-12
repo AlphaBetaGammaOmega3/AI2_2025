@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const AdminNavBar = () => (
   <div
-    className="d-flex justify-content-between align-items-center p-3"
+    className="d-unset justify-content-between align-items-center p-3"
     style={{ backgroundColor: "#326d7c", color: "white" }}
   >
     <div className="d-flex gap-3">

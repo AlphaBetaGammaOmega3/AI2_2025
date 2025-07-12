@@ -21,7 +21,7 @@ const AdminHistoricoVendas = () => {
   }, [token]);
 
   return (
-    <>
+    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth: "1530px" }}>
       <AdminNavBar />
       <div className="container mt-4">
         <h2>Histórico de Vendas</h2>
@@ -54,7 +54,7 @@ const AdminHistoricoVendas = () => {
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 };
 

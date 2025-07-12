@@ -50,7 +50,7 @@ const AdminVendas = () => {
   };
 
   return (
-    <>
+    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth: "1530px" }}>
       <AdminNavBar />
       <Container className="mt-4">
         <h3>Lista de Vendas:</h3>
@@ -118,7 +118,7 @@ const AdminVendas = () => {
           </Card>
         ))}
       </Container>
-    </>
+    </div>
   );
 };
 
