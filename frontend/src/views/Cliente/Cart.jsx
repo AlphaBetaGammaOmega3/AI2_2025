@@ -9,6 +9,7 @@ const Cart = () => {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [morada, setMorada] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const iduser = localStorage.getItem("iduser");
   const token = localStorage.getItem("token");
@@ -19,7 +20,6 @@ const Cart = () => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        console.log("Carrinho carregado:", res.data); // Debug para verificar estrutura
         setCarrinho(res.data);
       })
       .catch((err) => console.error("Erro ao carregar carrinho:", err));
@@ -65,15 +65,16 @@ const Cart = () => {
     e.preventDefault();
     if (!token) return alert("Precisa estar autenticado para comprar.");
 
+    setLoading(true);
     try {
-      // Atualiza apenas a morada
+      // Atualiza a morada do usuário
       await axios.put(
         `http://localhost:3000/api/users/${iduser}`,
         { morada },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Efetua a compra
+      // Cria a venda
       await axios.post(
         "http://localhost:3000/api/vendas",
         {},
@@ -82,12 +83,13 @@ const Cart = () => {
 
       setCompraFinalizada(true);
       setCarrinho([]);
-      carregarCarrinho(); // Recarrega carrinho após compra para atualizar o estado
+      carregarCarrinho();
       alert("Compra realizada com sucesso!");
     } catch (err) {
       console.error("Erro ao efetuar compra:", err.response?.data || err);
       alert("Erro ao finalizar compra.");
     }
+    setLoading(false);
   };
 
   const total = carrinho.reduce(
@@ -205,8 +207,12 @@ const Cart = () => {
                   required
                 />
               </div>
-              <button type="submit" className="btn btn-success w-100">
-                Efetuar Compra
+              <button
+                type="submit"
+                className="btn btn-success w-100"
+                disabled={loading}
+              >
+                {loading ? "Processando..." : "Efetuar Compra"}
               </button>
             </form>
           </div>

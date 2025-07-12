@@ -8,7 +8,7 @@ module.exports = {
     try {
       const { iduser, idtipouser } = req.user;
 
-      const whereClause = idtipouser === 4 ? {} : { iduser }; // admin vê tudo, cliente só as suas
+      const whereClause = idtipouser === 1 ? {} : { iduser }; // admin vê tudo, cliente só as suas
 
       const allVendas = await vendas.findAll({
         where: whereClause,
@@ -54,7 +54,7 @@ module.exports = {
       }
 
       // Se não for admin, só pode ver suas próprias vendas
-      if (idtipouser !== 4 && venda.iduser !== iduser) {
+      if (idtipouser !== 1 && venda.iduser !== iduser) {
         return res.status(403).json({ error: 'Acesso negado' });
       }
 
@@ -144,7 +144,7 @@ module.exports = {
       if (!venda) return res.status(404).json({ error: 'Venda não encontrada' });
 
       // Só admin ou dono da venda podem atualizar
-      if (idtipouser !== 4 && venda.iduser !== iduser) {
+      if (idtipouser !== 1 && venda.iduser !== iduser) {
         return res.status(403).json({ error: 'Acesso negado' });
       }
 
@@ -165,7 +165,7 @@ module.exports = {
       if (!venda) return res.status(404).json({ error: 'Venda não encontrada' });
 
       // Só admin ou dono da venda podem deletar
-      if (idtipouser !== 4 && venda.iduser !== iduser) {
+      if (idtipouser !== 1 && venda.iduser !== iduser) {
         return res.status(403).json({ error: 'Acesso negado' });
       }
 
