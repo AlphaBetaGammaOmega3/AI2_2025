@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { FaShoppingCart, FaSignOutAlt, FaUser, FaCoins } from "react-icons/fa";
+import { FaShoppingCart, FaSignOutAlt, FaUser, FaCoins, FaHome } from "react-icons/fa";
 
 const filtros = [];
 
@@ -27,6 +27,9 @@ const Header = () => {
                 </Link>
               ) : (
                 <>
+                  <Link to="/" className="text-white fs-4">
+                    <FaHome />
+                  </Link>
                   <Link to="/minhascompras" className="text-white fs-4">
                     <FaCoins />
                   </Link>
