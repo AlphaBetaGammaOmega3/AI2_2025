@@ -55,21 +55,23 @@ const VerProduto = () => {
   return (
     <>
       <Header />
-      <Container className="my-4" style={{ maxWidth: "700px" }}>
-        <Card>
-          <Card.Img variant="top" src={produto.imagem || "https://via.placeholder.com/600x400"} />
-          <Card.Body>
-            <Card.Title>{produto.nome}</Card.Title>
-            <Card.Text>
-              <strong>Preço:</strong> €{produto.valor} <br />
-              <strong>Tamanho:</strong> {produto.tamanho} <br />
-              <strong>Categoria:</strong> {produto.idtipoprod_tiposproduto?.descricao}
-            </Card.Text>
-            <Button variant="success" onClick={handleAddToCart}>
-              Adicionar ao Carrinho
-            </Button>
-          </Card.Body>
-        </Card>
+      <Container className="my-4" style={{ minWidth: "1520px", minHeight: "100vh" }}>
+        <div className="d-flex content-left">
+          <Card style={{ maxWidth: "600px", width: "100%" }}>
+            <Card.Img variant="top" src={produto.imagem || "https://via.placeholder.com/600x400"} />
+            <Card.Body>
+              <Card.Title>{produto.nome}</Card.Title>
+              <Card.Text>
+                <strong>Preço:</strong> €{produto.valor} <br />
+                <strong>Tamanho:</strong> {produto.tamanho} <br />
+                <strong>Categoria:</strong> {produto.idtipoprod_tiposproduto?.descricao}
+              </Card.Text>
+              <Button variant="success" onClick={handleAddToCart}>
+                Adicionar ao Carrinho
+              </Button>
+            </Card.Body>
+          </Card>
+        </div>
       </Container>
     </>
   );
