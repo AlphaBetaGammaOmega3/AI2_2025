@@ -35,7 +35,7 @@ function Register() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth:"1530px"}}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth: "1530px" }}>
       <header className="bg-teal text-black py-3 px-4">
         <h2>Criar Conta</h2>
       </header>
@@ -101,7 +101,7 @@ function Register() {
             </div>
 
             <div className="mb-3 small text-start">
-              <a href="#" className="text-decoration-none">Esqueceu-se da palavra-passe?</a>
+              <a href="/reset-password" className="text-decoration-none">Esqueceu-se da palavra-passe?</a>
             </div>
 
             <button type="submit" className="btn btn-primary w-100">Criar Conta</button>

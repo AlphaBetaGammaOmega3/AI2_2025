@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Login from './views/Auth/Login';
 import Register from './views/Auth/CreateAccount';
+import ResetPassword from './views/Auth/ResetPassword';
 
 import Home from './views/Cliente/Home';
 import Cart from './views/Cliente/Cart';
@@ -22,6 +23,7 @@ function App() {
         {/* Cliente */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/minhascompras" element={<MinhasVendas />} />

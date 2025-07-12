@@ -97,8 +97,24 @@ module.exports = {
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
+  },
+
+  async resetPassword(req, res) {
+  try {
+    const { email, newPassword } = req.body;
+
+    const user = await users.findOne({ where: { email } });
+    if (!user) return res.status(404).json({ error: "Utilizador não encontrado" });
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await user.update({ password: hashedPassword });
+
+    return res.json({ message: "Palavra-passe atualizada com sucesso" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
-  ,
+},
+
 
   async delete(req, res) {
     try {

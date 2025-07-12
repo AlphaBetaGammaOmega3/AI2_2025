@@ -6,7 +6,8 @@ const isAuthenticated = require('../middleware/isAuthenticated');
 router.get('/me', isAuthenticated, controller.getMe); 
 router.get('/', isAuthenticated, controller.findAll); 
 router.get('/:iduser', isAuthenticated, controller.get); 
-router.post('/', controller.create);// 
+router.post('/', controller.create);
+router.post('/reset-password', controller.resetPassword);
 router.put('/:iduser', isAuthenticated, controller.update); 
 router.delete('/:iduser', isAuthenticated, controller.delete); 
 
