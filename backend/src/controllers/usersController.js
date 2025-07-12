@@ -6,6 +6,7 @@ module.exports = {
   async findAll(req, res) {
     try {
       const allUsers = await users.findAll({
+        attributes: { exclude: ['password'] }, // exclui a senha do retorno
         include: [{ model: tiposuser, as: 'tipouser' }]
       });
       return res.json(allUsers);
@@ -14,12 +15,11 @@ module.exports = {
     }
   },
 
-  // Rretorna o user 
   async getMe(req, res) {
     try {
       const user = await users.findByPk(req.user.iduser, {
-        include: [{ model: tiposuser, as: 'tipouser' }],
-        attributes: { exclude: ['password'] }
+        attributes: { exclude: ['password'] },
+        include: [{ model: tiposuser, as: 'tipouser' }]
       });
 
       if (!user) return res.status(404).json({ error: 'Utilizador não encontrado' });
@@ -29,12 +29,11 @@ module.exports = {
     }
   },
 
-
-
   async get(req, res) {
     try {
       const { iduser } = req.params;
       const user = await users.findByPk(iduser, {
+        attributes: { exclude: ['password'] },
         include: [{ model: tiposuser, as: 'tipouser' }]
       });
       if (!user) return res.status(404).json({ error: 'User not found' });
@@ -57,7 +56,10 @@ module.exports = {
         password: hashedPassword,
         morada
       });
-      return res.status(201).json(newUser);
+      // não envia a senha no JSON
+      const userSafe = newUser.toJSON();
+      delete userSafe.password;
+      return res.status(201).json(userSafe);
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
@@ -71,7 +73,6 @@ module.exports = {
       const user = await users.findByPk(iduser);
       if (!user) return res.status(404).json({ error: 'User not found' });
 
-      // Verifica se o user atual tem permissão para mudar o tipo
       if (req.user.idtipouser !== 1 && idtipouser && idtipouser !== user.idtipouser) {
         return res.status(403).json({ error: 'Permissão negada para alterar tipo de utilizador' });
       }
@@ -82,7 +83,6 @@ module.exports = {
         morada: morada ?? user.morada,
       };
 
-      // Só atualiza o tipo se for enviado e se for admin
       if (req.user.idtipouser === 1 && idtipouser) {
         updatedData.idtipouser = idtipouser;
       }
@@ -92,28 +92,30 @@ module.exports = {
       }
 
       await user.update(updatedData);
-      return res.json(user);
+
+      const userSafe = user.toJSON();
+      delete userSafe.password;
+      return res.json(userSafe);
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
   },
 
   async resetPassword(req, res) {
-  try {
-    const { email, newPassword } = req.body;
+    try {
+      const { email, newPassword } = req.body;
 
-    const user = await users.findOne({ where: { email } });
-    if (!user) return res.status(404).json({ error: "Utilizador não encontrado" });
+      const user = await users.findOne({ where: { email } });
+      if (!user) return res.status(404).json({ error: "Utilizador não encontrado" });
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    await user.update({ password: hashedPassword });
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      await user.update({ password: hashedPassword });
 
-    return res.json({ message: "Palavra-passe atualizada com sucesso" });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-},
-
+      return res.json({ message: "Palavra-passe atualizada com sucesso" });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  },
 
   async delete(req, res) {
     try {
