@@ -7,8 +7,7 @@ module.exports = {
   async findAll(req, res) {
     try {
       const { iduser, idtipouser } = req.user;
-
-      const whereClause = idtipouser === 1 ? {} : { iduser }; // admin vê tudo, cliente só as suas
+      const whereClause = idtipouser === 1 ? {} : { iduser }; // admin vê tudo, clientes só as suas
 
       const allVendas = await vendas.findAll({
         where: whereClause,
@@ -16,9 +15,7 @@ module.exports = {
           {
             model: vendas_itens,
             as: 'vendas_itens',
-            include: [
-              { model: produtos, as: 'idprod_produto' }
-            ]
+            required: false,  // <<< aqui para evitar falhas se algum produto foi eliminado
           }
         ],
         order: [['datacompra', 'DESC']]
@@ -42,9 +39,7 @@ module.exports = {
           {
             model: vendas_itens,
             as: 'vendas_itens',
-            include: [
-              { model: produtos, as: 'idprod_produto' }
-            ]
+            required: false,  // <<< evita erro se itens faltarem
           }
         ]
       });
@@ -108,6 +103,9 @@ module.exports = {
           idprod: item.idprod,
           quantidade: item.quantidade,
           precounitario: item.idprod_produto.valor,
+          nomeprod: item.idprod_produto.nome,
+          imagemprod: item.idprod_produto.imagem,
+          tamanhoprod: item.idprod_produto.tamanho,
         });
 
         await produtos.update(
@@ -122,13 +120,7 @@ module.exports = {
       // Retorna a venda completa
       const vendaCompleta = await vendas.findOne({
         where: { idvenda: novaVenda.idvenda },
-        include: [
-          {
-            model: vendas_itens,
-            as: 'vendas_itens',
-            include: [{ model: produtos, as: 'idprod_produto' }],
-          },
-        ],
+        include: [{ model: vendas_itens, as: 'vendas_itens', required: false }],
       });
 
       return res.status(201).json(vendaCompleta);
@@ -184,5 +176,4 @@ module.exports = {
       return res.status(500).json({ error: error.message });
     }
   }
-
 };

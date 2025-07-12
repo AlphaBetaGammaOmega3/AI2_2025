@@ -2,7 +2,6 @@ const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('vendas_itens', {
     idprod: {
-      autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -27,7 +26,19 @@ module.exports = function(sequelize, DataTypes) {
     precounitario: {
       type: DataTypes.DOUBLE,
       allowNull: true
-    }
+    },
+    nomeprod: {
+  type: DataTypes.STRING,
+  allowNull: true
+},
+imagemprod: {
+  type: DataTypes.STRING,
+  allowNull: true
+},
+tamanhoprod: {
+  type: DataTypes.STRING,
+  allowNull: true
+}
   }, {
     sequelize,
     tableName: 'vendas_itens',
