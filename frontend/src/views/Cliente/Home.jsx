@@ -78,7 +78,11 @@ const Home = () => {
     : produtos;
 
   return (
-    <>
+    <div style={{
+      minHeight: "100vh",
+      backgroundColor: "#f0f4f5",
+      minWidth: "1530px",
+    }}>
       <Header />
       <Container style={{ minWidth: "1520px", minHeight: "100vh" }} className="mt-5">
         <Row className="mb-3 align-items-center">
@@ -116,10 +120,10 @@ const Home = () => {
                   Tamanho: {produto.tamanho}
                 </Card.Text>
                 <div className="d-flex justify-content-between">
-                  <Button variant="info" as={Link} to={`/artigo/${produto.idprod }`}>
+                  <Button variant="info" as={Link} to={`/artigo/${produto.idprod}`}>
                     Ver Artigo
                   </Button>
-                  <Button variant="success" onClick={() => handleAddToCart(produto.idprod )}>
+                  <Button variant="success" onClick={() => handleAddToCart(produto.idprod)}>
                     Adicionar
                   </Button>
                 </div>
@@ -132,7 +136,7 @@ const Home = () => {
         </div>
       </Container>
       <div className="mt-5" style={{ height: "30px", backgroundColor: "#326d7c" }} />
-    </>
+    </div>
   );
 };
 

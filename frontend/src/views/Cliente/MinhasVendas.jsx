@@ -34,10 +34,14 @@ const MinhasVendas = () => {
   };
 
   return (
-    <>
+    <div style={{
+      minHeight: "100vh",
+      backgroundColor: "#f0f4f5",
+      minWidth: "1530px",
+    }}>
       <Header />
 
-      <Container style={{ minWidth: "1520px", minHeight: "100vh" }} className="mt-4">
+      <Container style={{ minWidth: "1520px", minHeight: "100vh" }} className="mt-5">
         <h3 className="mb-4 text-left" style={{ color: "black" }}>Minhas Compras</h3>
 
         {vendas.length === 0 && (
@@ -89,7 +93,7 @@ const MinhasVendas = () => {
           </Card>
         ))}
       </Container>
-    </>
+    </div>
   );
 };
 

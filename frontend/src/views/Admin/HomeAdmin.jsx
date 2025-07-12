@@ -195,9 +195,6 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="mt-5" style={{ height: "30px", backgroundColor: "#326d7c" }} />
-
       {/* Modal de formulário */}
       <Modal show={showForm} onHide={() => setShowForm(false)}>
         <Modal.Header closeButton>

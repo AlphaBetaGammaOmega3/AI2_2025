@@ -84,7 +84,11 @@ const Perfil = () => {
   if (!userData) return null;
 
   return (
-    <>
+    <div style={{
+      minHeight: "100vh",
+      backgroundColor: "#f0f4f5",
+      minWidth: "1530px",
+    }}>
       <Header />
       <Container style={{ minWidth: "1520px", minHeight: "100vh" }} fluid className="bg-light min-vh-100 py-5">
         <h3 className="mb-4 text-left" style={{ color: "black" }}>Perfil</h3>
@@ -192,7 +196,7 @@ const Perfil = () => {
           </Card>
         </Container>
       </Container>
-    </>
+    </div>
   );
 };
 

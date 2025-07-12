@@ -4,6 +4,7 @@ import Header from "../../components/Header";
 import axios from "axios";
 
 const Cart = () => {
+  // Estados principais
   const [carrinho, setCarrinho] = useState([]);
   const [compraFinalizada, setCompraFinalizada] = useState(false);
   const [nome, setNome] = useState("");
@@ -14,17 +15,17 @@ const Cart = () => {
   const iduser = localStorage.getItem("iduser");
   const token = localStorage.getItem("token");
 
+  // Função para carregar os produtos no carrinho
   const carregarCarrinho = () => {
     axios
       .get(`http://localhost:3000/api/carrinhos/${iduser}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((res) => {
-        setCarrinho(res.data);
-      })
+      .then((res) => setCarrinho(res.data))
       .catch((err) => console.error("Erro ao carregar carrinho:", err));
   };
 
+  // Carrega os dados do utilizador e o carrinho
   useEffect(() => {
     if (!iduser || !token) return;
 
@@ -39,9 +40,12 @@ const Cart = () => {
         setEmail(res.data.email);
         setMorada(res.data.morada || "");
       })
-      .catch((err) => console.error("Erro ao carregar dados do utilizador:", err));
+      .catch((err) =>
+        console.error("Erro ao carregar dados do utilizador:", err)
+      );
   }, [iduser, token]);
 
+  // Remover produto do carrinho
   const handleRemoverProduto = (idprod) => {
     if (!iduser || !token) {
       alert("Precisa estar autenticado para remover do carrinho.");
@@ -61,13 +65,18 @@ const Cart = () => {
       });
   };
 
+  // Finalizar compra
   const handleEfetuarCompra = async (e) => {
     e.preventDefault();
-    if (!token) return alert("Precisa estar autenticado para comprar.");
+
+    if (!token) {
+      alert("Precisa estar autenticado para comprar.");
+      return;
+    }
 
     setLoading(true);
     try {
-      // Atualiza a morada do usuário
+      // Atualiza morada do usuário
       await axios.put(
         `http://localhost:3000/api/users/${iduser}`,
         { morada },
@@ -92,6 +101,7 @@ const Cart = () => {
     setLoading(false);
   };
 
+  // Total da compra
   const total = carrinho.reduce(
     (sum, item) =>
       sum + (item.idprod_produto?.valor || 0) * (item.quantidade || 1),
@@ -107,11 +117,13 @@ const Cart = () => {
       }}
     >
       <Header />
-      <div className="container-fluid my-4">
+
+      <div className="container-fluid my-5">
         <div className="row">
-          {/* Lista de produtos */}
+          {/* Produtos no Carrinho */}
           <div className="col-md-6">
             <h4>Produtos no Carrinho:</h4>
+
             {carrinho.length > 0 ? (
               carrinho.map((item) => (
                 <div className="card mb-4" key={item.idprod}>
@@ -130,21 +142,17 @@ const Cart = () => {
                         }}
                       />
                     </div>
+
                     <div className="col-8">
                       <div className="card-body">
                         <h5 className="card-title">
                           {item.idprod_produto?.nome}
                         </h5>
-                        <p>{item.idprod_produto?.descricao || ""}</p>
-                        <p>
-                          <small className="text-muted">
-                            Preço unitário: €{item.idprod_produto?.valor}
-                          </small>
-                        </p>
-                        <p>
-                          <small className="text-muted">
-                            Quantidade: {item.quantidade}
-                          </small>
+                        <p>{item.idprod_produto?.descricao}</p>
+                        <p className="text-muted">
+                          Preço unitário: €{item.idprod_produto?.valor}
+                          <br />
+                          Quantidade: {item.quantidade}
                         </p>
                         <Link
                           to={`/artigo/${item.idprod}`}
@@ -172,12 +180,13 @@ const Cart = () => {
             )}
           </div>
 
-          {/* Checkout */}
+          {/* Formulário de Checkout */}
           <div className="col-md-6">
             <h4>Detalhes de compra:</h4>
             <p>
               <strong>Valor total:</strong> €{total.toFixed(2)}
             </p>
+
             <form onSubmit={handleEfetuarCompra}>
               <div className="mb-3">
                 <label className="form-label">Nome</label>
@@ -188,6 +197,7 @@ const Cart = () => {
                   disabled
                 />
               </div>
+
               <div className="mb-3">
                 <label className="form-label">Email</label>
                 <input
@@ -197,6 +207,7 @@ const Cart = () => {
                   disabled
                 />
               </div>
+
               <div className="mb-3">
                 <label className="form-label">Morada</label>
                 <input
@@ -207,6 +218,7 @@ const Cart = () => {
                   required
                 />
               </div>
+
               <button
                 type="submit"
                 className="btn btn-success w-100"
