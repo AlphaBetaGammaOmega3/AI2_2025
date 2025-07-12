@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 
 const MinhasVendas = () => {
   const [vendas, setVendas] = useState([]);
+  const baseURL = "http://localhost:3000/uploads/";
 
   useEffect(() => {
     const fetchMinhasVendas = async () => {
@@ -13,7 +14,19 @@ const MinhasVendas = () => {
         const response = await axios.get("http://localhost:3000/api/vendas", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setVendas(response.data);
+
+        // Corrigir caminho da imagem para cada item da venda
+        const vendasLimpas = response.data.map((venda) => ({
+          ...venda,
+          vendas_itens: venda.vendas_itens.map((item) => ({
+            ...item,
+            imagemprod: item.imagemprod
+              ? baseURL + item.imagemprod.split(/(\\|\/)/).pop()
+              : null,
+          })),
+        }));
+
+        setVendas(vendasLimpas);
       } catch (err) {
         console.error("Erro ao procurar suas vendas:", err.message);
       }
