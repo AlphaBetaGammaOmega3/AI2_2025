@@ -11,12 +11,19 @@ const VerProduto = () => {
   const token = localStorage.getItem("token");
   const iduser = localStorage.getItem("iduser");
 
+  const baseURL = "http://localhost:3000/uploads/";
+
   const fetchProduto = async () => {
     try {
       const res = await axios.get(`http://localhost:3000/api/produtos/${idproduto}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setProduto(res.data);
+      // Limpa o caminho da imagem para ficar só com o nome do ficheiro
+      const produtoLimpo = {
+        ...res.data,
+        imagem: res.data.imagem ? res.data.imagem.split(/(\\|\/)/).pop() : null,
+      };
+      setProduto(produtoLimpo);
     } catch (error) {
       console.error("Erro ao procurar o produto:", error.message);
     } finally {
@@ -58,7 +65,11 @@ const VerProduto = () => {
       <Container className="my-4" style={{ minWidth: "1520px", minHeight: "100vh" }}>
         <div className="d-flex content-left">
           <Card style={{ maxWidth: "600px", width: "100%" }}>
-            <Card.Img variant="top" src={produto.imagem || "https://via.placeholder.com/600x400"} />
+            <Card.Img
+              variant="top"
+              src={produto.imagem ? baseURL + produto.imagem : "https://via.placeholder.com/600x400"}
+              alt={produto.nome}
+            />
             <Card.Body>
               <Card.Title>{produto.nome}</Card.Title>
               <Card.Text>

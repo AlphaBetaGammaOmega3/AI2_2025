@@ -10,7 +10,6 @@ const Home = () => {
   const [tipos, setTipos] = useState([]);
   const [tipoSelecionado, setTipoSelecionado] = useState("");
   const iduser = localStorage.getItem("iduser");
-  console.log("localStorage iduser:", iduser);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -18,21 +17,28 @@ const Home = () => {
     fetchTipos();
   }, []);
 
+  // Buscar lista de produtos
   const fetchProdutos = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/produtos");
-      setProdutos(response.data);
-    } catch (err) {
-      console.error("Erro ao procurar produtos:", err.message);
+      const res = await axios.get("http://localhost:3000/api/produtos", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      // Remover caminhos da imagem para ficar só o nome do ficheiro
+      const produtosLimpos = res.data.map(p => ({
+        ...p,
+        imagem: p.imagem ? p.imagem.split(/(\\|\/)/).pop() : null
+      }));
+      setProdutos(produtosLimpos);
+    } catch (error) {
+      console.error("Erro ao procurar produtos:", error.message);
     }
   };
 
+  // Buscar tipos de produtos
   const fetchTipos = async () => {
     try {
       const res = await axios.get("http://localhost:3000/api/tiposprodutos", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       setTipos(res.data);
     } catch (err) {
@@ -46,11 +52,6 @@ const Home = () => {
       return;
     }
 
-    console.log("Tentando adicionar ao carrinho:");
-    console.log("iduser:", iduser);
-    console.log("produtoId:", produtoId);
-    console.log("token:", token);
-
     try {
       await axios.post(
         `http://localhost:3000/api/carrinhos`,
@@ -60,9 +61,7 @@ const Home = () => {
           quantidade: 1,
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       alert("Produto adicionado ao carrinho!");
@@ -72,17 +71,12 @@ const Home = () => {
     }
   };
 
-
   const produtosFiltrados = tipoSelecionado
     ? produtos.filter((p) => p.idtipoprod === parseInt(tipoSelecionado))
     : produtos;
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      backgroundColor: "#f0f4f5",
-      minWidth: "1530px",
-    }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth: "1530px" }}>
       <Header />
       <Container style={{ minWidth: "1520px", minHeight: "100vh" }} className="mt-5">
         <Row className="mb-3 align-items-center">
@@ -109,7 +103,7 @@ const Home = () => {
             <Card style={{ minWidth: "300px" }} key={produto.idprod}>
               <Card.Img
                 variant="top"
-                src={produto.imagem || "https://via.placeholder.com/300x200"}
+                src={produto.imagem ? `http://localhost:3000/uploads/${produto.imagem}` : "https://via.placeholder.com/600x400"}
                 alt={produto.nome}
               />
               <Card.Body>

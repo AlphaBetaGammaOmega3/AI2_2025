@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const db = require('./Models');
+const path = require('path');
+const fs = require('fs');
+
 
 // Rotas
 const authRoutes = require('./routes/authRoutes');
@@ -19,6 +22,9 @@ app.set('port', process.env.PORT || 3000);
 
 app.use(cors());
 app.use(express.json());
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // Headers CORS customizados
 app.use((req, res, next) => {
@@ -116,6 +122,12 @@ app.use('/api/vendasitens', vendasitensRoutes);
     console.error("🔴 Erro ao sincronizar tabelas:", err.message);
   }
 })();
+
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+  console.log('Pasta uploads criada no startup');
+}
 
 // Iniciar o servidor
 app.listen(app.get('port'), () => {

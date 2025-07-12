@@ -13,7 +13,7 @@ const AdminProdutos = () => {
   const [editingProduto, setEditingProduto] = useState(null);
   const [formData, setFormData] = useState({
     nome: "",
-    imagem: "",
+    imagem: null,
     valor: "",
     stock: "",
     tamanho: "",
@@ -21,27 +21,19 @@ const AdminProdutos = () => {
   });
 
   const fetchProdutos = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:3000/api/produtos", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setProdutos(res.data);
-    } catch (err) {
-      console.error("Erro ao procurar produtos:", err);
-    }
+    const token = localStorage.getItem("token");
+    const res = await axios.get("http://localhost:3000/api/produtos", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setProdutos(res.data);
   };
 
   const fetchTipos = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:3000/api/tiposprodutos", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setTipos(res.data);
-    } catch (err) {
-      console.error("Erro ao procurar tipos:", err);
-    }
+    const token = localStorage.getItem("token");
+    const res = await axios.get("http://localhost:3000/api/tiposprodutos", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setTipos(res.data);
   };
 
   useEffect(() => {
@@ -53,7 +45,7 @@ const AdminProdutos = () => {
     setEditingProduto(produto);
     setFormData({
       nome: produto.nome,
-      imagem: produto.imagem,
+      imagem: null, // reset para novo upload
       valor: produto.valor,
       stock: produto.stock,
       tamanho: produto.tamanho,
@@ -66,7 +58,7 @@ const AdminProdutos = () => {
     setEditingProduto(null);
     setFormData({
       nome: "",
-      imagem: "",
+      imagem: null,
       valor: "",
       stock: "",
       tamanho: "",
@@ -77,49 +69,56 @@ const AdminProdutos = () => {
 
   const handleDelete = async (id) => {
     if (window.confirm("Tem certeza que deseja remover este produto?")) {
-      try {
-        const token = localStorage.getItem("token");
-        await axios.delete(`http://localhost:3000/api/produtos/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        fetchProdutos();
-      } catch (err) {
-        console.error("Erro ao remover produto:", err.message);
-      }
+      const token = localStorage.getItem("token");
+      await axios.delete(`http://localhost:3000/api/produtos/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      fetchProdutos();
     }
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const token = localStorage.getItem("token");
+  e.preventDefault();
+  const token = localStorage.getItem("token");
 
-      const payload = {
-        ...formData,
-        valor: parseFloat(formData.valor),
-        stock: parseInt(formData.stock, 10),
-        idtipoprod: parseInt(formData.idtipoprod, 10),
-      };
+  const data = new FormData();
+  data.append("nome", formData.nome);
+  data.append("valor", formData.valor);
+  data.append("stock", formData.stock);
+  data.append("tamanho", formData.tamanho);
+  data.append("idtipoprod", formData.idtipoprod);
+  if (formData.imagem) data.append("imagem", formData.imagem);
 
-      if (editingProduto) {
-        await axios.put(
-          `http://localhost:3000/api/produtos/${editingProduto.idprod}`,
-          payload,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-      } else {
-        await axios.post("http://localhost:3000/api/produtos", payload, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-      }
+  console.log("Enviando dados para criação:", {
+    nome: formData.nome,
+    valor: formData.valor,
+    stock: formData.stock,
+    tamanho: formData.tamanho,
+    idtipoprod: formData.idtipoprod,
+    imagem: formData.imagem?.name || "sem imagem"
+  });
 
-      setShowForm(false);
-      fetchProdutos();
-    } catch (err) {
-      console.error("Erro ao salvar produto:", err.message);
-      alert("Erro ao salvar produto. Ver console.");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data"
     }
   };
+
+  try {
+    if (editingProduto) {
+      await axios.put(`http://localhost:3000/api/produtos/${editingProduto.idprod}`, data, config);
+    } else {
+      await axios.post("http://localhost:3000/api/produtos", data, config);
+    }
+
+    setShowForm(false);
+    fetchProdutos();
+  } catch (error) {
+    console.error("Erro na requisição:", error);
+  }
+};
+
 
   const filteredProdutos = tipoSelecionado
     ? produtos.filter((p) => p.idtipoprod === parseInt(tipoSelecionado))
@@ -157,7 +156,7 @@ const AdminProdutos = () => {
             <Card style={{ width: "18rem" }} key={produto.idprod}>
               <Card.Img
                 variant="top"
-                src={produto.imagem || "https://via.placeholder.com/300x200?text=2:3"}
+                src={produto.imagem ? `http://localhost:3000${produto.imagem}` : "https://via.placeholder.com/300x200?text=2:3"}
                 alt="Imagem do Produto"
               />
               <Card.Body>
@@ -166,8 +165,7 @@ const AdminProdutos = () => {
                   <strong>€{produto.valor}</strong> | Tamanho: {produto.tamanho}
                   <br />
                   <span className="text-success">
-                    Estoque: {produto.stock ?? 0} unidade
-                    {produto.stock === 1 ? "" : "s"}
+                    Estoque: {produto.stock ?? 0} unidade{produto.stock === 1 ? "" : "s"}
                   </span>
                 </Card.Text>
                 <div className="d-flex justify-content-between">
@@ -199,10 +197,12 @@ const AdminProdutos = () => {
               />
             </Form.Group>
             <Form.Group className="mb-2">
-              <Form.Label>Imagem (URL)</Form.Label>
+              <Form.Label>Imagem (ficheiro)</Form.Label>
               <Form.Control
-                value={formData.imagem}
-                onChange={(e) => setFormData({ ...formData, imagem: e.target.value })}
+                type="file"
+                name="imagem"
+                accept="image/*"
+                onChange={(e) => setFormData({ ...formData, imagem: e.target.files[0] })}
               />
             </Form.Group>
             <Form.Group className="mb-2">
