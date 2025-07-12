@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = db.users;
 
-// Idealmente, use dotenv para guardar o segredo
+// Idealmente, guarde esse segredo em .env
 const JWT_SECRET = 'secretoforte'; 
 
 exports.login = async (req, res) => {
@@ -18,10 +18,8 @@ exports.login = async (req, res) => {
             return res.status(401).json({ message: 'Credenciais inválidas' });
         }
 
-        // Remove espaços em branco da senha (caso tenha sido salva com padding)
-        const hashLimpo = user.password.trim();
-
-        const isPasswordValid = await bcrypt.compare(password, hashLimpo);
+        // Não remover espaços do hash — use direto
+        const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Credenciais inválidas' });
@@ -34,7 +32,7 @@ exports.login = async (req, res) => {
             { expiresIn: '1h' }
         );
 
-        // Envia o token e alguns dados do user
+        // Retorna token e dados do usuário
         return res.json({
             token,
             user: {
@@ -46,7 +44,6 @@ exports.login = async (req, res) => {
 
     } catch (error) {
         console.error("Erro no login:", error);
-
         return res.status(500).json({ message: 'Erro no login', error: error.message });
     }
 };
