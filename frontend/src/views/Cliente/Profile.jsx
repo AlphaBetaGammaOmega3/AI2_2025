@@ -3,6 +3,8 @@ import { Container, Row, Col, Card, Spinner, Button, Form } from "react-bootstra
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
+import { FaUserCircle } from "react-icons/fa";
+
 
 const Perfil = () => {
   const [userData, setUserData] = useState(null);
@@ -90,7 +92,7 @@ const Perfil = () => {
       minWidth: "1530px",
     }}>
       <Header />
-      <Container style={{ minWidth: "1520px", minHeight: "100vh" }} fluid className="bg-light min-vh-100 py-5">
+      <Container style={{ minWidth: "1520px", minHeight: "100vh" }} fluid className="min-vh-100 py-5">
         <h3 className="mb-4 text-left" style={{ color: "black" }}>Perfil</h3>
         <Container className="d-flex justify-content-center">
           <Card
@@ -106,6 +108,9 @@ const Perfil = () => {
             }}
           >
             <Row>
+              <Col xs="auto" className="d-flex align-items-start justify-content-center">
+                <FaUserCircle size={100} color="#346E7F" />
+              </Col>
               <Col>
                 {editing ? (
                   <Form>

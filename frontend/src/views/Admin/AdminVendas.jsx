@@ -54,7 +54,7 @@ return (
       {vendas.length === 0 && <p>Sem vendas registradas.</p>}
 
       {vendas.map((venda) => (
-        <Card className="mb-4 shadow-sm" key={venda.idvenda} bg="light" border="secondary">
+        <Card className="mb-4 shadow-sm" style={{ maxWidth: "500px" }} key={venda.idvenda} bg="light" border="secondary">
           <Card.Header>
             <strong>Venda #{venda.idvenda}</strong> — Data: {formatDateOnly(venda.datacompra)}
           </Card.Header>

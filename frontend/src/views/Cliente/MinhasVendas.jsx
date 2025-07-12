@@ -32,7 +32,7 @@ const MinhasVendas = () => {
   };
 
   return (
-    <>
+    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth: "1530px" }}>
       <Header />
       <Container style={{ minWidth: "1520px", minHeight: "100vh" }} className="mt-4">
         <h3 className="mb-4 text-left text-black">Minhas Compras</h3>
@@ -74,7 +74,7 @@ const MinhasVendas = () => {
           </Card>
         ))}
       </Container>
-    </>
+    </div>
   );
 };
 

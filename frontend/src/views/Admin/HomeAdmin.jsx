@@ -155,7 +155,7 @@ const AdminDashboard = () => {
           {/* Lista de utilizadores */}
           <div className="col-md-8">
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <h4>Lista de utilizadores:</h4>
+              <h3>Lista de utilizadores:</h3>
               <Button variant="success" onClick={handleCreate}>Criar novo</Button>
             </div>
 

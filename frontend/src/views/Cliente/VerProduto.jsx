@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Card, Button, Spinner } from "react-bootstrap";
+import { Container, Card, Button, Spinner, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import Header from "../../components/Header";
 
@@ -60,31 +60,36 @@ const VerProduto = () => {
   if (!produto) return <p>Produto não encontrado.</p>;
 
   return (
-    <>
+    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4f5", minWidth: "1530px" }}>
       <Header />
       <Container className="my-4" style={{ minWidth: "1520px", minHeight: "100vh" }}>
-        <div className="d-flex content-left">
-          <Card style={{ maxWidth: "600px", width: "100%" }}>
-            <Card.Img
-              variant="top"
-              src={produto.imagem ? baseURL + produto.imagem : "https://via.placeholder.com/600x400"}
-              alt={produto.nome}
-            />
-            <Card.Body>
-              <Card.Title>{produto.nome}</Card.Title>
-              <Card.Text>
-                <strong>Preço:</strong> €{produto.valor} <br />
-                <strong>Tamanho:</strong> {produto.tamanho} <br />
-                <strong>Categoria:</strong> {produto.idtipoprod_tiposproduto?.descricao}
-              </Card.Text>
-              <Button variant="success" onClick={handleAddToCart}>
-                Adicionar ao Carrinho
-              </Button>
-            </Card.Body>
-          </Card>
-        </div>
+        <Row className="mb-3 align-items-center">
+          <Col md={4}>
+          <h3>Página do Artigo</h3>
+          </Col>
+          <div className="d-flex content-left">
+            <Card style={{ maxWidth: "300px", width: "100%" }}>
+              <Card.Img
+                variant="top"
+                src={produto.imagem ? baseURL + produto.imagem : "https://via.placeholder.com/600x400"}
+                alt={produto.nome}
+              />
+              <Card.Body>
+                <Card.Title>{produto.nome}</Card.Title>
+                <Card.Text>
+                  <strong>Preço:</strong> €{produto.valor} <br />
+                  <strong>Tamanho:</strong> {produto.tamanho} <br />
+                  <strong>Categoria:</strong> {produto.idtipoprod_tiposproduto?.descricao}
+                </Card.Text>
+                <Button variant="success" onClick={handleAddToCart}>
+                  Adicionar ao Carrinho
+                </Button>
+              </Card.Body>
+            </Card>
+          </div>
+        </Row>
       </Container>
-    </>
+    </div>
   );
 };
 
