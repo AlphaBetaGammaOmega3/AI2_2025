@@ -23,14 +23,13 @@ const MinhasVendas = () => {
     fetchMinhasVendas();
   }, []);
 
-  const formatDate = (dataISO) => {
+  // Apenas data no formato DD/MM/AAAA
+  const formatDateOnly = (dataISO) => {
     const data = new Date(dataISO);
     return data.toLocaleDateString("pt-PT", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
     });
   };
 
@@ -40,10 +39,15 @@ const MinhasVendas = () => {
 
       {vendas.length === 0 && <p>Você ainda não fez nenhuma compra.</p>}
 
-      {vendas.map((venda) => (
-        <Card className="mb-4" key={venda.idvenda} bg="light" border="secondary">
+      {vendas.map((venda, index) => (
+        <Card
+          className="mb-4 shadow-sm"
+          key={venda.idvenda}
+          bg="light"
+          border="secondary"
+        >
           <Card.Header>
-            <strong>Compra #{venda.idvenda}</strong> — Data: {formatDate(venda.datacompra)}
+            <strong>Compra #{index + 1}</strong> — Data: {formatDateOnly(venda.datacompra)}
           </Card.Header>
 
           {venda.vendas_itens.map((item, idx) => (
@@ -64,34 +68,26 @@ const MinhasVendas = () => {
                     <strong>Produto:</strong> {item.idprod_produto?.nome}
                   </div>
                   <div>
-                    <strong>Descrição:</strong> {item.idprod_produto?.descricao}
-                  </div>
-                  <div>
                     <strong>Tamanho:</strong> {item.idprod_produto?.tamanho}
                   </div>
                   <div>
-                    <strong>Categoria:</strong>{" "}
-                    {item.idprod_produto?.idtipoprod_tiposproduto?.descricao || "N/A"}
+                    <strong>Quantidade:</strong> {item.quantidade}
                   </div>
                 </div>
               </div>
 
               <div className="text-end">
                 <div>
-                  <strong>Quantidade:</strong> {item.quantidade}
-                </div>
-                <div>
                   <strong>Preço Unitário:</strong> €{item.precounitario.toFixed(2)}
                 </div>
                 <div>
-                  <strong>Preço Total:</strong>{" "}
-                  €{(item.quantidade * item.precounitario).toFixed(2)}
+                  <strong>Preço Total:</strong> €{(item.quantidade * item.precounitario).toFixed(2)}
                 </div>
               </div>
             </Card.Body>
           ))}
 
-          <Card.Footer>
+          <Card.Footer className="text-end">
             <strong>Valor Total da Compra:</strong> €{venda.valorfinal?.toFixed(2)}
           </Card.Footer>
         </Card>

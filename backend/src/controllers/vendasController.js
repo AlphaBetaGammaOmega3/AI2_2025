@@ -90,11 +90,15 @@ module.exports = {
         valorfinal += item.quantidade * item.idprod_produto.valor;
       }
 
-      // Cria a venda com data atual
+      // Cria a venda com data atual (ajustada para horário de Lisboa)
+      const dataAgoraLisboa = new Date(
+        new Date().toLocaleString("en-GB", { timeZone: "Europe/Lisbon" })
+      );
+
       const novaVenda = await vendas.create({
         iduser,
         valorfinal,
-        datacompra: new Date(),
+        datacompra: dataAgoraLisboa,
       });
 
       // Cria os itens da venda e atualiza o estoque
