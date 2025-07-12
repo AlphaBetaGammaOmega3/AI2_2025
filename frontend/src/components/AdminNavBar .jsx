@@ -11,7 +11,6 @@ const AdminNavBar = () => (
       <Link to="/admintiposprodutos" className="btn btn-outline-light">Tipos de Produtos</Link>
       <Link to="/adminprodutos" className="btn btn-outline-light">Produtos</Link>
       <Link to="/adminvendas" className="btn btn-outline-light">Vendas</Link>
-      <Link to="/adminhistoricovendas" className="btn btn-outline-light">Histórico de Vendas</Link>
     </div>
   </div>
 );
