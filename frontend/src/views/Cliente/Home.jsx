@@ -23,7 +23,7 @@ const Home = () => {
       const response = await axios.get("http://localhost:3000/api/produtos");
       setProdutos(response.data);
     } catch (err) {
-      console.error("Erro ao buscar produtos:", err.message);
+      console.error("Erro ao procurar produtos:", err.message);
     }
   };
 
@@ -36,7 +36,7 @@ const Home = () => {
       });
       setTipos(res.data);
     } catch (err) {
-      console.error("Erro ao buscar tipos:", err.message);
+      console.error("Erro ao procurar tipos:", err.message);
     }
   };
 

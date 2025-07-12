@@ -47,7 +47,7 @@ app.use('/api/carrinhos', carrinhoRoutes);
 app.use('/api/vendas', vendasRoutes);
 app.use('/api/vendasitens', vendasitensRoutes);
 
-// Sincronizar o banco de dados
+// Sincronizar a bd
 (async () => {
   try {
     // sincronizar primeiro tabelas sem dependências
@@ -63,7 +63,7 @@ app.use('/api/vendasitens', vendasitensRoutes);
     await db.vendas.sync({ alter: true });
     await db.vendas_itens.sync({ alter: true });
 
-    // garantir tipos de usuário padrão
+    // garantir tipos de user padrão
     await db.tiposuser.findOrCreate({
       where: { idtipouser: 1 },
       defaults: { descricao: 'admin' }
@@ -77,12 +77,11 @@ app.use('/api/vendasitens', vendasitensRoutes);
     // garantir tipos de produto padrão
     const tiposProdutosPadrao = [
       "Calçado",
-      "Sapatos",
       "Calças",
-      "T-Shirt",
       "Camisas",
       "Camisolas",
-      "Casaco"
+      "Casaco",
+      "T-Shirt"
     ];
 
     for (const descricao of tiposProdutosPadrao) {
@@ -92,7 +91,7 @@ app.use('/api/vendasitens', vendasitensRoutes);
       });
     }
 
-    // criar utilizador admin padrão, se não existir
+    // criar user admin padrão, se não existir
     const hashedPassword = await bcrypt.hash('admin123', 10);
 
     const [adminUser, created] = await db.users.findOrCreate({

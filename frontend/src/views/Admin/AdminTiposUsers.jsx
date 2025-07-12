@@ -17,7 +17,7 @@ const AdminTiposUsers = () => {
       });
       setTipos(res.data);
     } catch (error) {
-      alert("Erro ao buscar tipos de users");
+      alert("Erro ao procurar tipos de users");
       console.error(error);
     }
   };

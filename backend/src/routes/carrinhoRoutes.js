@@ -4,7 +4,7 @@ const carrinhoController = require('../controllers/carrinhoController');
 const isAuthenticated = require('../middleware/isAuthenticated');
 
 router.post('/', isAuthenticated, carrinhoController.create);
-router.get('/', isAuthenticated, carrinhoController.findAll); // Pode restringir só admin se quiser
+router.get('/', isAuthenticated, carrinhoController.findAll);
 router.get('/:iduser', isAuthenticated, carrinhoController.getByUser);
 router.put('/:iduser', isAuthenticated, carrinhoController.update);
 router.delete('/:iduser', isAuthenticated, carrinhoController.deleteByUser);

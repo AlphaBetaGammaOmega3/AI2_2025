@@ -15,7 +15,7 @@ const MinhasVendas = () => {
         });
         setVendas(response.data);
       } catch (err) {
-        console.error("Erro ao buscar suas vendas:", err.message);
+        console.error("Erro ao procurar suas vendas:", err.message);
       }
     };
 

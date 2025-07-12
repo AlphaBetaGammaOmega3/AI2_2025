@@ -31,10 +31,10 @@ const Perfil = () => {
           nome: response.data.nome || "",
           email: response.data.email || "",
           morada: response.data.morada || "",
-          password: "", // só para trocar senha se quiser
+          password: "", // só para trocar senha se se quiser
         });
       } catch (error) {
-        console.error("Erro ao buscar perfil:", error);
+        console.error("Erro ao procurar perfil:", error);
         navigate("/login");
       } finally {
         setLoading(false);

@@ -18,7 +18,7 @@ const AdminTiposProdutos = () => {
       });
       setTipos(res.data);
     } catch (error) {
-      alert("Erro ao buscar tipos de produtos");
+      alert("Erro ao procurar tipos de produtos");
       console.error(error);
     }
   };

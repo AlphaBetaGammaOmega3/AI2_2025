@@ -1,11 +1,10 @@
-// middlewares/authorizeRoles.js
 const jwt = require('jsonwebtoken');
 const db = require('../Models');
 const User = db.users;
 
-const JWT_SECRET = 'secretoforte'; // coloque em .env
+const JWT_SECRET = 'secretoforte'; 
 
-// Recebe os tipos de usuário permitidos por parâmetro (ex: 4, 2, 3)
+// Recebe os tipos de user permitidos por parâmetro
 function authorizeRoles(...allowedRoles) {
   return async (req, res, next) => {
     try {
@@ -19,11 +18,11 @@ function authorizeRoles(...allowedRoles) {
 
       const user = await User.findByPk(decoded.iduser || decoded.id);
       if (!user) {
-        return res.status(401).json({ message: 'Usuário não encontrado' });
+        return res.status(401).json({ message: 'User não encontrado' });
       }
 
       if (!allowedRoles.includes(user.idtipouser)) {
-        return res.status(403).json({ message: 'Acesso negado: tipo de usuário não permitido' });
+        return res.status(403).json({ message: 'Acesso negado: tipo de User não permitido' });
       }
 
       req.user = user;

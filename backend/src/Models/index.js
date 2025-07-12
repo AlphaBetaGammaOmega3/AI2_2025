@@ -21,7 +21,7 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-// Inicializar todos os modelos e associações
+// Inicializar todos os models e associações
 const models = initModels(sequelize);
 
 // Atribuir cada modelo a db
@@ -33,7 +33,7 @@ db.users = models.users;
 db.vendas = models.vendas;
 db.vendas_itens = models.vendas_itens;
 
-// Definir associação explícita para o alias usado no controller
+// Definine associação explícita para o alias usado no controller
 db.users.belongsTo(db.tiposuser, { foreignKey: 'idtipouser', as: 'tipouser' });
 
 module.exports = db;

@@ -6,7 +6,7 @@ const isAuthenticated = require('../middleware/isAuthenticated');
 router.post('/', isAuthenticated, vendasController.create);
 router.get('/', isAuthenticated, vendasController.findAll);
 router.get('/:idvenda', isAuthenticated, vendasController.get);
-router.put('/:idvenda', isAuthenticated, vendasController.update); // se quiser permitir update no futuro
+router.put('/:idvenda', isAuthenticated, vendasController.update); 
 router.delete('/:idvenda', isAuthenticated, vendasController.delete);
 
 module.exports = router;

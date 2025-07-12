@@ -14,7 +14,7 @@ module.exports = {
     }
   },
 
-  // Rota para retornar o próprio utilizador logado
+  // Rretorna o user 
   async getMe(req, res) {
     try {
       const user = await users.findByPk(req.user.iduser, {
@@ -48,7 +48,6 @@ module.exports = {
     try {
       const { idtipouser, nome, email, password, morada } = req.body;
 
-      // Hash da senha
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const newUser = await users.create({
@@ -72,7 +71,7 @@ module.exports = {
       const user = await users.findByPk(iduser);
       if (!user) return res.status(404).json({ error: 'User not found' });
 
-      // Verifica se o utilizador autenticado tem permissão para mudar o tipo
+      // Verifica se o user atual tem permissão para mudar o tipo
       if (req.user.idtipouser !== 1 && idtipouser && idtipouser !== user.idtipouser) {
         return res.status(403).json({ error: 'Permissão negada para alterar tipo de utilizador' });
       }
@@ -83,7 +82,7 @@ module.exports = {
         morada: morada ?? user.morada,
       };
 
-      // Só atualiza o tipo se for enviado E se for admin
+      // Só atualiza o tipo se for enviado e se for admin
       if (req.user.idtipouser === 1 && idtipouser) {
         updatedData.idtipouser = idtipouser;
       }

@@ -15,7 +15,7 @@ const AdminVendas = () => {
         });
         setVendas(response.data);
       } catch (err) {
-        console.error("Erro ao buscar vendas:", err.message);
+        console.error("Erro ao procurar vendas:", err.message);
       }
     };
 

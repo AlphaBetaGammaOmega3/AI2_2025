@@ -1,4 +1,3 @@
-// middlewares/isAuthenticated.js
 const jwt = require('jsonwebtoken');
 const db = require('../Models');
 const User = db.users;
@@ -19,15 +18,15 @@ module.exports = async (req, res, next) => {
     // Decodifica o token
     const decoded = jwt.verify(token, JWT_SECRET);
 
-    // Procura o utilizador no banco de dados
+    // Procura o user na bd
     const user = await User.findByPk(decoded.iduser || decoded.id);
     if (!user) {
-      return res.status(401).json({ message: 'Usuário não encontrado' });
+      return res.status(401).json({ message: 'User não encontrado' });
     }
 
-    // Injeta o utilizador no request
+    // Injeta o user no request
     req.user = user;
-    next(); // prossegue para o próximo middleware
+    next(); // para o próximo middleware
   } catch (error) {
     return res.status(401).json({ message: 'Token inválido ou expirado', error: error.message });
   }

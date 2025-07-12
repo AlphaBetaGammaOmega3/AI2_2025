@@ -18,7 +18,7 @@ const VerProduto = () => {
       });
       setProduto(res.data);
     } catch (error) {
-      console.error("Erro ao buscar o produto:", error.message);
+      console.error("Erro ao procurar o produto:", error.message);
     } finally {
       setLoading(false);
     }

@@ -4,7 +4,7 @@ module.exports = {
   async findAll(req, res) {
     try {
       const allCarrinhos = await carrinhos.findAll({
-        include: [{ model: users, as: 'iduser_user' }]  // verifique alias aqui e no Models/index.js
+        include: [{ model: users, as: 'iduser_user' }]
       });
       return res.json(allCarrinhos);
     } catch (error) {
@@ -23,10 +23,6 @@ module.exports = {
         { model: produtos, as: 'idprod_produto' }
       ]
     });
-
-    // Remover esta verificação:
-    // if (!carrinhoItens || carrinhoItens.length === 0)
-    //   return res.status(404).json({ error: 'Carrinho do usuário não encontrado ou vazio' });
 
     // Apenas retorna a lista (mesmo que vazia)
     return res.status(200).json(carrinhoItens);
@@ -52,12 +48,12 @@ module.exports = {
     });
 
     if (existente) {
-      // Atualiza quantidade se já existir
+      // Atualiza a quantidade se já existir
       await existente.update({ quantidade: existente.quantidade + quantidade });
       return res.status(200).json(existente);
     }
 
-    // Cria novo item
+    // Cria um novo item
     const newCarrinho = await carrinhos.create({ iduser, idprod, quantidade });
     return res.status(201).json(newCarrinho);
   } catch (error) {

@@ -50,7 +50,7 @@ const Header = () => {
         </Container>
       </div>
 
-      {/* Barra de filtros apenas para utilizadores autenticados */}
+      {/* Barra de filtros apenas para users logados */}
       {token && (
         <div className="py-2" style={{ backgroundColor: "#6c757d", color: "white" }}>
           <Container fluid>

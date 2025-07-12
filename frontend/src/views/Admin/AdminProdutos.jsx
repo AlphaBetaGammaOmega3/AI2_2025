@@ -28,7 +28,7 @@ const AdminProdutos = () => {
       });
       setProdutos(res.data);
     } catch (err) {
-      console.error("Erro ao buscar produtos:", err);
+      console.error("Erro ao procurar produtos:", err);
     }
   };
 
@@ -40,7 +40,7 @@ const AdminProdutos = () => {
       });
       setTipos(res.data);
     } catch (err) {
-      console.error("Erro ao buscar tipos:", err);
+      console.error("Erro ao procurar tipos:", err);
     }
   };
 
@@ -117,7 +117,7 @@ const AdminProdutos = () => {
       fetchProdutos();
     } catch (err) {
       console.error("Erro ao salvar produto:", err.message);
-      alert("Erro ao salvar produto. Veja o console.");
+      alert("Erro ao salvar produto. Ver console.");
     }
   };
 

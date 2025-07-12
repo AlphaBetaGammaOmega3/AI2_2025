@@ -1,11 +1,10 @@
-// controllers/authController.js
 const db = require('../Models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = db.users;
 
 // Idealmente, use dotenv para guardar o segredo
-const JWT_SECRET = 'secretoforte'; // 🔐 Em produção, coloque em .env
+const JWT_SECRET = 'secretoforte'; 
 
 exports.login = async (req, res) => {
     const { email, password } = req.body;
@@ -19,7 +18,7 @@ exports.login = async (req, res) => {
             return res.status(401).json({ message: 'Credenciais inválidas' });
         }
 
-        // Remove espaços em branco da senha do banco (caso tenha sido salva com padding)
+        // Remove espaços em branco da senha (caso tenha sido salva com padding)
         const hashLimpo = user.password.trim();
 
         const isPasswordValid = await bcrypt.compare(password, hashLimpo);
@@ -28,14 +27,14 @@ exports.login = async (req, res) => {
             return res.status(401).json({ message: 'Credenciais inválidas' });
         }
 
-        // Geração do token JWT
+        // Gera token JWT
         const token = jwt.sign(
             { id: user.iduser, email: user.email },
             JWT_SECRET,
             { expiresIn: '1h' }
         );
 
-        // Envia o token e alguns dados do usuário
+        // Envia o token e alguns dados do user
         return res.json({
             token,
             user: {

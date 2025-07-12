@@ -42,8 +42,8 @@ const AdminDashboard = () => {
       setUsers(res.data);
       setErro(null);
     } catch (err) {
-      console.error("Erro ao buscar utilizadores:", err);
-      setErro("Erro ao buscar utilizadores. Verifique se tem permissões.");
+      console.error("Erro ao procurar utilizadores:", err);
+      setErro("Erro ao procurar users. Verifique se tem permissões.");
     } finally {
       setLoading(false);
     }
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
       });
       setCurrentUser(res.data);
     } catch (err) {
-      console.error("Erro ao buscar utilizador logado:", err);
+      console.error("Erro ao procurar user logado:", err);
     }
   };
 
@@ -69,7 +69,7 @@ const AdminDashboard = () => {
       });
       setTiposUsers(res.data);
     } catch (err) {
-      console.error("Erro ao buscar tipos de utilizador:", err);
+      console.error("Erro ao procurar tipos de user:", err);
     }
   };
 
@@ -83,7 +83,7 @@ const AdminDashboard = () => {
   if (erro) return <p style={{ color: "red" }}>{erro}</p>;
 
   const handleDelete = async (iduser) => {
-    if (window.confirm("Deseja realmente remover este utilizador?")) {
+    if (window.confirm("Deseja realmente remover este user?")) {
       try {
         const token = localStorage.getItem("token");
         await axios.delete(`${apiUrl}/${iduser}`, {
@@ -93,7 +93,7 @@ const AdminDashboard = () => {
         });
         fetchUsers();
       } catch (err) {
-        console.error("Erro ao remover utilizador:", err.message);
+        console.error("Erro ao remover user:", err.message);
       }
     }
   };
@@ -140,7 +140,7 @@ const AdminDashboard = () => {
       setShowForm(false);
       fetchUsers();
     } catch (err) {
-      console.error("Erro ao salvar utilizador:", err.message);
+      console.error("Erro ao salvar user:", err.message);
     }
   };
 
@@ -178,7 +178,7 @@ const AdminDashboard = () => {
             ))}
           </div>
 
-          {/* Cartão do utilizador logado */}
+          {/* Cartão do user logado */}
           <div className="col-md-4">
             <Card className="text-center">
               <Card.Header style={{ backgroundColor: "#326d7c" }}>

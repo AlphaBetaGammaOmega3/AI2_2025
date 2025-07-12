@@ -25,7 +25,7 @@ const Cart = () => {
       .catch((err) => console.error("Erro ao carregar carrinho:", err));
   };
 
-  // Carrega os dados do utilizador e o carrinho
+  // Carrega os dados do user e o carrinho
   useEffect(() => {
     if (!iduser || !token) return;
 
@@ -76,7 +76,7 @@ const Cart = () => {
 
     setLoading(true);
     try {
-      // Atualiza morada do usuário
+      // Atualiza morada do user
       await axios.put(
         `http://localhost:3000/api/users/${iduser}`,
         { morada },

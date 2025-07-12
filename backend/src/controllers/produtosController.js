@@ -1,4 +1,4 @@
-const { produtos, tiposproduto } = require('../Models'); // corrigido para tiposproduto
+const { produtos, tiposproduto } = require('../Models'); 
 const authorizeRoles = require('../middleware/authorizeRoles');
 
 module.exports = {
@@ -20,7 +20,7 @@ const idtipouser = req.user?.idtipouser ?? null;
 async get(req, res) {
   try {
     const { idproduto } = req.params;
-    const idtipouser = req.user?.idtipouser ?? null; // <- solução aqui
+    const idtipouser = req.user?.idtipouser ?? null;
 
     const produto = await produtos.findByPk(idproduto, {
       include: [{ model: tiposproduto, as: 'idtipoprod_tiposproduto' }],
@@ -30,7 +30,7 @@ async get(req, res) {
     if (!produto) return res.status(404).json({ error: 'Produto not found' });
     return res.json(produto);
   } catch (error) {
-    console.error("Erro ao obter produto:", error); // <- útil para debugging
+    console.error("Erro ao obter produto:", error); 
     return res.status(500).json({ error: error.message });
   }
 },

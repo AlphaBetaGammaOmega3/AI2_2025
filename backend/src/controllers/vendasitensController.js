@@ -2,7 +2,7 @@ const { vendas_itens, produtos, vendas } = require('../Models');
 
 module.exports = {
 
-  // Listar todos os itens de venda
+  // Listar todos os itens da venda
   async findAll(req, res) {
   try {
     const allItens = await vendas_itens.findAll({
@@ -20,7 +20,7 @@ module.exports = {
             {
               model: require('../Models').users,
               as: 'iduser_user',
-              attributes: ['nome'] // nome do usuário
+              attributes: ['nome'] // nome do user
             }
           ]
         }
@@ -30,7 +30,7 @@ module.exports = {
     // Mapeia os dados para um formato mais simples
     const response = allItens.map(item => ({
       data_venda: item.idvenda_venda?.data,
-      nome_usuario: item.idvenda_venda?.iduser_user?.nome || 'Usuário apagado',
+      nome_usuario: item.idvenda_venda?.iduser_user?.nome || 'User apagado',
       nome_produto: item.idprod_produto?.nome || 'Produto apagado',
       quantidade: item.quantidade,
       preco_final: item.precounitario * item.quantidade
@@ -44,7 +44,7 @@ module.exports = {
 },
 
 
-  // Procurar um item de venda por PK composta (idvenda + idprod)
+  // Procurar um item de venda (idvenda + idprod)
   async get(req, res) {
     try {
       const { idvenda, idprod } = req.params;
@@ -67,7 +67,7 @@ module.exports = {
     try {
       const { idvenda, idprod, quantidade, precounitario } = req.body;
 
-      // Validar se item já existe (PK composta)
+      // Validar se item já existe
       const exists = await vendas_itens.findOne({ where: { idvenda, idprod } });
       if (exists) {
         return res.status(400).json({ error: 'Item de venda já existe' });

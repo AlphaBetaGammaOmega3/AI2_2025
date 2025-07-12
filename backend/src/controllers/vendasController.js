@@ -3,7 +3,7 @@ const { Sequelize } = require('sequelize');
 
 module.exports = {
 
-  // Listar todas as vendas (admin) ou apenas do usuário logado (cliente)
+  // Listar todas as vendas (admin) ou apenas do user atual (cliente)
   async findAll(req, res) {
     try {
       const { iduser, idtipouser } = req.user;
@@ -15,7 +15,7 @@ module.exports = {
           {
             model: vendas_itens,
             as: 'vendas_itens',
-            required: false,  // <<< aqui para evitar falhas se algum produto foi eliminado
+            required: false,  // pra evitar falhas se algum produto foi eliminado (n funcionou ig)
           }
         ],
         order: [['datacompra', 'DESC']]
@@ -27,7 +27,7 @@ module.exports = {
     }
   },
 
-  // Obter uma venda específica
+  // Venda específica
   async get(req, res) {
     try {
       const { idvenda } = req.params;
@@ -39,7 +39,7 @@ module.exports = {
           {
             model: vendas_itens,
             as: 'vendas_itens',
-            required: false,  // <<< evita erro se itens faltarem
+            required: false,  // evita erro se itens faltarem
           }
         ]
       });
@@ -59,12 +59,12 @@ module.exports = {
     }
   },
 
-  // Criar nova venda a partir do carrinho do usuário
+  // Criar nova venda a partir do carrinho do user
   async create(req, res) {
     try {
       const { iduser } = req.user;
 
-      // Busca os produtos no carrinho do usuário
+      // Busca os produtos no carrinho do user
       const carrinhoProdutos = await carrinhos.findAll({
         where: { iduser },
         include: [{ model: produtos, as: 'idprod_produto' }],
@@ -74,7 +74,7 @@ module.exports = {
         return res.status(400).json({ error: 'Carrinho vazio' });
       }
 
-      // Calcula o valor total e verifica estoque
+      // Calcula o valor total e verifica stock
       let valorfinal = 0;
       for (const item of carrinhoProdutos) {
         if (item.quantidade > item.idprod_produto.stock) {
@@ -85,7 +85,7 @@ module.exports = {
         valorfinal += item.quantidade * item.idprod_produto.valor;
       }
 
-      // Cria a venda com data atual (ajustada para horário de Lisboa)
+      // Cria a venda com data atual (ajustada para horário de Lisboa) (n funcionou ig)
       const dataAgoraLisboa = new Date(
         new Date().toLocaleString("en-GB", { timeZone: "Europe/Lisbon" })
       );
@@ -114,7 +114,7 @@ module.exports = {
         );
       }
 
-      // Limpa o carrinho do usuário
+      // Limpa o carrinho do user
       await carrinhos.destroy({ where: { iduser } });
 
       // Retorna a venda completa
@@ -151,7 +151,7 @@ module.exports = {
     }
   },
 
-  // Deletar uma venda (ex: por admin)
+  // Apagar uma venda (ex: por admin)
   async delete(req, res) {
     try {
       const { idvenda } = req.params;
@@ -160,7 +160,7 @@ module.exports = {
       const venda = await vendas.findByPk(idvenda);
       if (!venda) return res.status(404).json({ error: 'Venda não encontrada' });
 
-      // Só admin ou dono da venda podem deletar
+      // Só admin ou dono da venda podem apagar
       if (idtipouser !== 1 && venda.iduser !== iduser) {
         return res.status(403).json({ error: 'Acesso negado' });
       }

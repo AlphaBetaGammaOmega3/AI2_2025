@@ -25,7 +25,7 @@ function Login() {
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('iduser', user.iduser);
 
-      // Redirecionar conforme tipo de usuário
+      // Redirecionar conforme tipo de user
       if (user.idtipouser === 1) {
         navigate('/homeAdmin');
       } else {

@@ -3,7 +3,7 @@ const router = express.Router();
 const produtosController = require('../controllers/produtosController');
 const isAdmin = require('../middleware/isAdmin');
 const authorizeRoles = require('../middleware/authorizeRoles');
-const isAuthenticated = require('../middleware/isAuthenticated'); // <-- importar
+const isAuthenticated = require('../middleware/isAuthenticated'); 
 
 
 router.get('/', produtosController.findAll);
