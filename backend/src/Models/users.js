@@ -16,19 +16,19 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     nome: {
-      type: DataTypes.CHAR(256),
+      type: DataTypes.STRING,
       allowNull: true
     },
     email: {
-      type: DataTypes.CHAR(256),
+      type: DataTypes.STRING,
       allowNull: false
     },
     password: {
-      type: DataTypes.CHAR(256),
+      type: DataTypes.STRING,
       allowNull: false
     },
     morada: {
-      type: DataTypes.CHAR(256),
+      type: DataTypes.STRING,
       allowNull: true
     }
   }, {
