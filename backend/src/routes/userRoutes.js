@@ -10,15 +10,6 @@ router.post('/', controller.create);
 router.post('/reset-password', controller.resetPassword);
 router.put('/:iduser', isAuthenticated, controller.update); 
 router.delete('/:iduser', isAuthenticated, controller.delete); 
-router.delete('/delete-admin', async (req, res) => {
-  try {
-    const deleted = await db.users.destroy({ where: { email: 'admin@gmail.com' } });
-    res.json({ message: `Admin deletado (${deleted} registo(s))` });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
 
 
 module.exports = router;
