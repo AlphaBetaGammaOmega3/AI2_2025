@@ -20,15 +20,17 @@ const idtipouser = req.user?.idtipouser ?? null;
 async get(req, res) {
   try {
     const { idproduto } = req.params;
-    const { idtipouser } = req.user;
+    const idtipouser = req.user?.idtipouser ?? null; // <- solução aqui
 
     const produto = await produtos.findByPk(idproduto, {
       include: [{ model: tiposproduto, as: 'idtipoprod_tiposproduto' }],
       attributes: idtipouser === 1 ? undefined : { exclude: ['stock'] }
     });
+
     if (!produto) return res.status(404).json({ error: 'Produto not found' });
     return res.json(produto);
   } catch (error) {
+    console.error("Erro ao obter produto:", error); // <- útil para debugging
     return res.status(500).json({ error: error.message });
   }
 },

@@ -9,9 +9,11 @@ import Home from './views/Cliente/Home';
 import Cart from './views/Cliente/Cart';
 import Perfil from './views/Cliente/Profile';
 import MinhasVendas from './views/Cliente/MinhasVendas';
+import VerProduto from './views/Cliente/VerProduto';
 
 import AdminDashboard from './views/Admin/HomeAdmin';
 import AdminProdutos from './views/Admin/AdminProdutos';
+import AdminVerProduto from './views/Admin/AdminVerProduto';
 import AdminVendas from './views/Admin/AdminVendas';
 import AdminTiposProdutos from './views/Admin/AdminTiposProdutos';
 import AdminTiposUsers from './views/Admin/AdminTiposUsers';
@@ -25,6 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/artigo/:idproduto" element={<VerProduto />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/minhascompras" element={<MinhasVendas />} />
         <Route path="/profile" element={<Perfil />} />
@@ -34,6 +37,7 @@ function App() {
         <Route path="/adminprodutos" element={<AdminProdutos />} />
         <Route path="/adminvendas" element={<AdminVendas />} />
         <Route path="/admintiposprodutos" element={<AdminTiposProdutos />} />
+        <Route path="/admin/artigo/:idproduto" element={<AdminVerProduto />} />
         <Route path="/admintiposusers" element={<AdminTiposUsers />} />
       </Routes>
     </Router>
