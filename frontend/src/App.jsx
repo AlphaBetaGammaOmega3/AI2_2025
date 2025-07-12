@@ -12,7 +12,6 @@ import MinhasVendas from './views/Cliente/MinhasVendas';
 import AdminDashboard from './views/Admin/HomeAdmin';
 import AdminProdutos from './views/Admin/AdminProdutos';
 import AdminVendas from './views/Admin/AdminVendas';
-import AdminHistoricoVendas from './views/Admin/AdminHistoricoVendas';
 import AdminTiposProdutos from './views/Admin/AdminTiposProdutos';
 import AdminTiposUsers from './views/Admin/AdminTiposUsers';
 
@@ -32,7 +31,6 @@ function App() {
         <Route path="/homeAdmin" element={<AdminDashboard />} />
         <Route path="/adminprodutos" element={<AdminProdutos />} />
         <Route path="/adminvendas" element={<AdminVendas />} />
-        <Route path="/adminhistoricovendas" element={<AdminHistoricoVendas />} />
         <Route path="/admintiposprodutos" element={<AdminTiposProdutos />} />
         <Route path="/admintiposusers" element={<AdminTiposUsers />} />
       </Routes>
