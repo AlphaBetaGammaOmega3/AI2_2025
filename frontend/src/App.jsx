@@ -13,7 +13,6 @@ import VerProduto from './views/Cliente/VerProduto';
 
 import AdminDashboard from './views/Admin/HomeAdmin';
 import AdminProdutos from './views/Admin/AdminProdutos';
-import AdminVerProduto from './views/Admin/AdminVerProduto';
 import AdminVendas from './views/Admin/AdminVendas';
 import AdminTiposProdutos from './views/Admin/AdminTiposProdutos';
 import AdminTiposUsers from './views/Admin/AdminTiposUsers';
@@ -37,7 +36,6 @@ function App() {
         <Route path="/adminprodutos" element={<AdminProdutos />} />
         <Route path="/adminvendas" element={<AdminVendas />} />
         <Route path="/admintiposprodutos" element={<AdminTiposProdutos />} />
-        <Route path="/admin/artigo/:idproduto" element={<AdminVerProduto />} />
         <Route path="/admintiposusers" element={<AdminTiposUsers />} />
       </Routes>
     </Router>
