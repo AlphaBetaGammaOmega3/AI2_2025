@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Spinner, Button, Form } from "react-bootstrap";
-import { FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -14,30 +13,28 @@ const Perfil = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem('user'));
-        const token = localStorage.getItem('token');
-
-        if (!user || !token) {
-          navigate('/login');
+        const token = localStorage.getItem("token");
+        if (!token) {
+          navigate("/login");
           return;
         }
 
-        const response = await axios.get(`http://localhost:3000/api/users/${user.iduser}`, {
+        const response = await axios.get("http://localhost:3000/api/users/me", {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         setUserData(response.data);
         setFormData({
-          nome: response.data.nome,
-          email: response.data.email,
-          morada: response.data.morada,
-          password: "", // Só se ele quiser trocar a senha
+          nome: response.data.nome || "",
+          email: response.data.email || "",
+          morada: response.data.morada || "",
+          password: "", // só para trocar senha se quiser
         });
       } catch (error) {
         console.error("Erro ao buscar perfil:", error);
-        navigate('/login');
+        navigate("/login");
       } finally {
         setLoading(false);
       }
@@ -47,29 +44,28 @@ const Perfil = () => {
   }, [navigate]);
 
   const handleChange = (e) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
   const handleSave = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
 
       const response = await axios.put(
         `http://localhost:3000/api/users/${userData.iduser}`,
         formData,
         {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
       setUserData(response.data);
       setEditing(false);
 
-      // Atualiza localStorage com dados atualizados
-      localStorage.setItem('user', JSON.stringify(response.data));
+      localStorage.setItem("user", JSON.stringify(response.data));
     } catch (error) {
       console.error("Erro ao atualizar perfil:", error);
       alert("Erro ao atualizar perfil. Tente novamente.");
@@ -79,7 +75,7 @@ const Perfil = () => {
   if (loading) {
     return (
       <Container className="d-flex justify-content-center align-items-center min-vh-100">
-        <Spinner animation="border" />
+        <Spinner animation="border" variant="primary" />
       </Container>
     );
   }
@@ -87,64 +83,107 @@ const Perfil = () => {
   if (!userData) return null;
 
   return (
-    <Container fluid className="bg-light min-vh-100">
-      <h3 className="py-4 px-4">Perfil</h3>
+    <Container fluid className="bg-light min-vh-100 py-5">
+      <h3 className="text-center mb-4" style={{ color: "#316976", fontWeight: "700" }}>
+        Perfil
+      </h3>
       <Container className="d-flex justify-content-center">
-        <Card className="p-4 rounded shadow" style={{ width: "80%", backgroundColor: "#ddd", borderRadius: "25px" }}>
-          <Row className="align-items-center">
-            <Col xs={12} md={4} className="text-center mb-3 mb-md-0">
-              <FaUserCircle size={150} color="#316976" />
-            </Col>
-            <Col xs={12} md={8}>
+        <Card
+          className="shadow-sm"
+          style={{
+            width: "90%",
+            maxWidth: "600px",
+            backgroundColor: "#fff",
+            borderRadius: "20px",
+            padding: "30px",
+            boxShadow:
+              "0 8px 24px rgba(49, 105, 118, 0.12), 0 3px 6px rgba(49, 105, 118, 0.08)",
+          }}
+        >
+          <Row>
+            <Col>
               {editing ? (
                 <Form>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Nome</Form.Label>
+                  <Form.Group className="mb-4">
+                    <Form.Label style={{ fontWeight: "600", color: "#316976" }}>Nome</Form.Label>
                     <Form.Control
                       type="text"
                       name="nome"
                       value={formData.nome}
                       onChange={handleChange}
+                      placeholder="Digite seu nome"
+                      style={{ borderRadius: "8px" }}
                     />
                   </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Email</Form.Label>
+                  <Form.Group className="mb-4">
+                    <Form.Label style={{ fontWeight: "600", color: "#316976" }}>Email</Form.Label>
                     <Form.Control
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
+                      placeholder="Digite seu email"
+                      style={{ borderRadius: "8px" }}
                     />
                   </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Morada</Form.Label>
+                  <Form.Group className="mb-4">
+                    <Form.Label style={{ fontWeight: "600", color: "#316976" }}>Morada</Form.Label>
                     <Form.Control
                       type="text"
                       name="morada"
                       value={formData.morada}
                       onChange={handleChange}
+                      placeholder="Digite sua morada"
+                      style={{ borderRadius: "8px" }}
                     />
                   </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Nova senha (opcional)</Form.Label>
+                  <Form.Group className="mb-4">
+                    <Form.Label style={{ fontWeight: "600", color: "#316976" }}>
+                      Nova senha (opcional)
+                    </Form.Label>
                     <Form.Control
                       type="password"
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
                       placeholder="Deixe em branco se não quiser mudar"
+                      style={{ borderRadius: "8px" }}
                     />
                   </Form.Group>
-                  <Button variant="success" onClick={handleSave} className="me-2">Guardar</Button>
-                  <Button variant="secondary" onClick={() => setEditing(false)}>Cancelar</Button>
+                  <div className="d-flex gap-2">
+                    <Button variant="success" onClick={handleSave} className="flex-grow-1">
+                      Guardar
+                    </Button>
+                    <Button
+                      variant="outline-secondary"
+                      onClick={() => setEditing(false)}
+                      className="flex-grow-1"
+                    >
+                      Cancelar
+                    </Button>
+                  </div>
                 </Form>
               ) : (
                 <>
-                  <p><strong>Nome:</strong><br /> {userData.nome}</p>
-                  <p><strong>E-mail:</strong><br /> {userData.email}</p>
-                  <p><strong>Morada:</strong><br /> {userData.morada}</p>
-                  <p><strong>Tipo de Utilizador:</strong><br /> {userData.tipouser?.descricao}</p>
-                  <Button variant="primary" onClick={() => setEditing(true)}>Editar Perfil</Button>
+                  <p style={{ fontSize: "1.2rem" }}>
+                    <strong>Nome:</strong>
+                    <br /> {userData.nome}
+                  </p>
+                  <p style={{ fontSize: "1.2rem" }}>
+                    <strong>E-mail:</strong>
+                    <br /> {userData.email}
+                  </p>
+                  <p style={{ fontSize: "1.2rem" }}>
+                    <strong>Morada:</strong>
+                    <br /> {userData.morada}
+                  </p>
+                  <Button
+                    variant="primary"
+                    onClick={() => setEditing(true)}
+                    style={{ marginTop: "20px", fontWeight: "600", borderRadius: "10px" }}
+                  >
+                    Editar Perfil
+                  </Button>
                 </>
               )}
             </Col>
