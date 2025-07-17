@@ -18,6 +18,8 @@ const vendasitensRoutes = require('./routes/vendasitensRoutes');
 
 const app = express();
 
+app.use("cookie-parser"());
+
 app.set('port', process.env.PORT || 3000);
 
 app.use(cors());
