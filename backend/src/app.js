@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const db = require('./Models');
 const path = require('path');
 const fs = require('fs');
+const cookieParser = require('cookie-parser');
 
 
 // Rotas
@@ -18,7 +19,7 @@ const vendasitensRoutes = require('./routes/vendasitensRoutes');
 
 const app = express();
 
-app.use("cookie-parser"());
+app.use(cookieParser());
 
 app.set('port', process.env.PORT || 3000);
 
